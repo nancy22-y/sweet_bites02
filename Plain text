@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sweet_bites02</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <a href="#" class="logo">sweet_bites02</a>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#products">Desserts</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+
+  <div class="hero-text">
+    <p class="small-title">HOMEMADE • FRESH • MADE WITH LOVE</p>
+
+    <h1>
+      Sweet moments,<br>
+      <span>one bite at a time.</span>
+    </h1>
+
+    <p>
+      Little desserts made to make your day
+      a little sweeter.
+    </p>
+
+    <a href="#products" class="button">
+      Explore Desserts
+    </a>
+  </div>
+
+  <div class="hero-image">
+    <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=1000&q=80" alt="Desserts">
+  </div>
+
+</section>
+
+<section id="products" class="products">
+
+  <div class="section-title">
+    <p class="small-title">OUR MENU</p>
+    <h2>Sweet Bites</h2>
+    <p>Choose your favourite treat.</p>
+  </div>
+
+  <div class="product-grid">
+
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80" alt="雪媚娘">
+      <div class="product-info">
+        <h3>雪媚娘</h3>
+        <p>Soft, chewy and creamy handmade mochi dessert.</p>
+        <strong>RM 0.00</strong>
+        <a href="#" class="order-button">Order</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="Basque Cheesecake">
+      <div class="product-info">
+        <h3>Basque Cheesecake</h3>
+        <p>Creamy, rich and beautifully caramelised.</p>
+        <strong>RM 0.00</strong>
+        <a href="#" class="order-button">Order</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80" alt="冰豆花">
+      <div class="product-info">
+        <h3>冰豆花</h3>
+        <p>Silky chilled tofu pudding with delicious toppings.</p>
+        <strong>RM 0.00</strong>
+        <a href="#" class="order-button">Order</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80" alt="传统月饼">
+      <div class="product-info">
+        <p class="seasonal">SEASONAL</p>
+        <h3>传统月饼</h3>
+        <p>Traditional mooncakes from our seasonal collection.</p>
+        <strong>RM 0.00</strong>
+        <a href="#" class="order-button">Order</a>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<section id="about" class="about">
+
+  <p class="small-title">ABOUT US</p>
+
+  <h2>Made for sweet little moments.</h2>
+
+  <p>
+    Welcome to sweet_bites02 ♡
+    We make homemade desserts with love,
+    from our kitchen to your table.
+  </p>
+
+</section>
+
+<footer>
+  © 2026 sweet_bites02 · Made with love ♡
+</footer>
+
+</body>
+</html>
