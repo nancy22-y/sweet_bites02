@@ -291,3 +291,48 @@ footer {
   background-color: #fff;
   cursor: pointer;
 }
+/* Delivery Info Section 美化 */
+.delivery-info-section {
+  padding: 80px 7%;
+  background: #fffaf4;
+}
+
+.delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.delivery-card {
+  background: #ffffff;
+  padding: 30px 20px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(75, 50, 35, 0.05);
+  border: 1px solid #f2e6d9;
+}
+
+.delivery-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.delivery-card h3 {
+  font-family: Georgia, serif;
+  color: #3e332d;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.delivery-card p {
+  color: #76675f;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .delivery-grid {
+    grid-template-columns: 1fr;
+  }
+}
