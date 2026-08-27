@@ -15,6 +15,7 @@
   <nav>
     <a href="#home">Home</a>
     <a href="#products">Desserts</a>
+    <a href="#delivery">Delivery Info</a>
     <a href="#about">About</a>
   </nav>
 </header>
@@ -72,7 +73,7 @@
 
         <strong id="mochi-price-display">RM 4.80 / pc</strong>
 
-        <!-- 单粒模式界面：自由挑选各口味粒数 -->
+        <!-- 单粒模式界面 -->
         <div id="mochi-piece-section">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Select quantity for each flavor:</p>
           <div class="flavor-selector">
@@ -112,7 +113,7 @@
           <button onclick="addMochiPiecesToCart()" class="order-button">Add to Cart</button>
         </div>
 
-        <!-- 整盒模式界面（默认隐藏） -->
+        <!-- 整盒模式界面 -->
         <div id="mochi-box-section" style="display: none;">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Mix & match flavors for your box:</p>
           <div class="flavor-selector">
@@ -218,6 +219,34 @@
 
 </section>
 
+<!-- 取货 / 配送说明模块 -->
+<section id="delivery" class="delivery-info-section">
+  <div class="section-title">
+    <p class="small-title">HOW TO GET YOUR DESSERTS</p>
+    <h2>Ordering & Delivery Info</h2>
+  </div>
+
+  <div class="delivery-grid">
+    <div class="delivery-card">
+      <div class="delivery-icon">🛍️</div>
+      <h3>Self-Pickup (自取)</h3>
+      <p>Free of charge. Pick up your fresh desserts directly from our kitchen. Please specify your preferred pickup date & time when placing your order.</p>
+    </div>
+
+    <div class="delivery-card">
+      <div class="delivery-icon">🚗</div>
+      <h3>GrabExpress Delivery</h3>
+      <p>Delivery fee will be paid by customer (邮费自付). We will arrange GrabExpress or Lalamove to send desserts right to your doorstep.</p>
+    </div>
+
+    <div class="delivery-card">
+      <div class="delivery-icon">❄️</div>
+      <h3>Freshness Note</h3>
+      <p>All desserts are freshly handmade! Please keep them refrigerated upon receiving and enjoy within 2–3 days for the best taste.</p>
+    </div>
+  </div>
+</section>
+
 <!-- 浮动购物车图标 -->
 <div class="cart-icon" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
@@ -269,7 +298,6 @@
     if (current + delta >= 0) input.value = current + delta;
   }
 
-  // 切换雪媚娘购买模式（单粒/整盒）
   function toggleMochiMode() {
     let mode = document.getElementById('mochi-mode').value;
     let priceDisplay = document.getElementById('mochi-price-display');
@@ -287,7 +315,6 @@
     }
   }
 
-  // 加购按粒计算的雪媚娘（按每粒 RM 4.80 算）
   function addMochiPiecesToCart() {
     const flavors = [
       { id: 'p-grapes', name: '雪媚娘 (Grapes)' },
@@ -303,7 +330,7 @@
       let qty = parseInt(qtyInput.value);
       if (qty > 0) {
         addToCartCustom(f.name, 4.80, qty);
-        qtyInput.value = 0; // 加购完后清空选择框
+        qtyInput.value = 0;
         addedAny = true;
       }
     });
@@ -313,7 +340,6 @@
     }
   }
 
-  // 加购整盒雪媚娘（固定一盒 RM 18.00）
   function addMochiBoxToCart() {
     let g = parseInt(document.getElementById('qty-mochi-b-grapes').value);
     let m = parseInt(document.getElementById('qty-mochi-b-mango').value);
@@ -341,14 +367,12 @@
     document.getElementById('qty-mochi-b-longan').value = 0;
   }
 
-  // 专属巴斯克蛋糕切换价格
   function updateCakePrice() {
     let select = document.getElementById('cake-size');
     let price = select.options[select.selectedIndex].getAttribute('data-price');
     document.getElementById('cake-price-display').innerText = 'RM ' + parseFloat(price).toFixed(2);
   }
 
-  // 专属巴斯克蛋糕加入购物车
   function addCakeToCart() {
     let select = document.getElementById('cake-size');
     let size = select.value;
@@ -407,16 +431,31 @@
     document.getElementById('cart-drawer').classList.toggle('open');
   }
 
+  // 格式化输出 WhatsApp 必须信息
   function checkoutWA() {
     if (cart.length === 0) return alert("Your cart is empty!");
+    
     let message = "Hi! I would like to place an order:%0A%0A";
+    message += "📦 *ORDER ITEMS:*%0A";
     let grandTotal = 0;
+    
     cart.forEach(item => {
       let subtotal = item.price * item.qty;
       grandTotal += subtotal;
       message += `• ${item.name} x${item.qty} = RM ${subtotal.toFixed(2)}%0A`;
     });
-    message += `%0ATotal Amount: RM ${grandTotal.toFixed(2)}`;
+    
+    message += `%0A💰 *TOTAL:* RM ${grandTotal.toFixed(2)}%0A%0A`;
+    
+    message += "----------------------------------%0A";
+    message += "📋 *CUSTOMER INFORMATION:*%0A";
+    message += "• Name (姓名): %0A";
+    message += "• Phone (电话): %0A";
+    message += "• Delivery Method (取货方式): [ Self-Pickup 自取 / GrabExpress Delivery 邮费自付 ]%0A";
+    message += "• Pickup/Delivery Date & Time (时间): %0A";
+    message += "• Address (如选择 GrabExpress 配送请填地址): %0A";
+    message += "• Remarks (备注): %0A";
+
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, '_blank');
   }
 </script>
