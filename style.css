@@ -395,7 +395,7 @@ footer {
   margin-bottom: 4px;
   color: #666;
 }
-/* 二维码展示区美化样式 */
+/* 修正后的二维码展示区样式 */
 .qr-payment-container {
   margin: 15px 0 10px;
   padding: 12px;
@@ -404,21 +404,27 @@ footer {
   border-radius: 8px;
   text-align: center;
 }
+
 .qr-title {
   font-size: 13px;
   font-weight: bold;
   color: #5b463b;
   margin: 0 0 8px;
 }
+
 .qr-img {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+  width: 100%;             /* 宽度自动适应容器 */
+  max-width: 160px;        /* 最大宽度限制为 160px，防止太大 */
+  height: auto;            /* 保持高度自适应不变形 */
+  object-fit: contain;     /* 确保整张图片完整显示 */
+  border-radius: 8px;
+  border: 1px solid #eee;
+  display: block;
+  margin: 0 auto;          /* 居中显示 */
 }
+
 .qr-subtext {
   font-size: 11px;
   color: #888;
-  margin: 6px 0 0;
+  margin: 8px 0 0;
 }
