@@ -336,3 +336,59 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+/* 顶部活动 Banner 样式 */
+.promo-banner {
+  background: #f4e8df;
+  color: #5b463b;
+  text-align: center;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-bottom: 1px solid #e8d7c8;
+}
+.code-tag {
+  background: #5b463b;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* 购物车优惠码输入框与结算区域样式 */
+.promo-input-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.promo-input-box input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.promo-input-box button {
+  padding: 8px 15px;
+  background: #5b463b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.promo-msg {
+  font-size: 12px;
+  margin: 5px 0 0;
+  min-height: 18px;
+}
+
+.cart-summary {
+  margin-bottom: 12px;
+}
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #666;
+}
