@@ -9,7 +9,7 @@
 
 <body>
 
-<!-- 顶部活动公告栏（已修改为 RM 2.00 OFF） -->
+<!-- 顶部活动公告栏 -->
 <div class="promo-banner">
   🎉 <strong>WEBSITE LAUNCH SPECIAL:</strong> First 5 orders get <strong>RM 2.00 OFF</strong>! Use code: <span class="code-tag">FIRST5</span>
 </div>
@@ -246,7 +246,7 @@
     <div class="delivery-card">
       <div class="delivery-icon">❄️</div>
       <h3>Freshness Note</h3>
-      <p>All desserts are freshly handmade! Please keep them refrigerated upon receiving and enjoy within 1 day for the best taste.</p>
+      <p>All desserts are freshly handmade! Please keep them refrigerated upon receiving and enjoy within 2–3 days for the best taste.</p>
     </div>
   </div>
 </section>
@@ -274,13 +274,20 @@
   </div>
   <p id="promo-msg" class="promo-msg" style="font-size: 11px; color: #888;">* Limited to first 5 website orders only.</p>
 
+  <!-- 二维码付款展示区 -->
+  <div class="qr-payment-container">
+    <p class="qr-title">Scan QR Code to Pay (扫码付款):</p>
+    <img src="images/payment-qr.jpg" alt="DuitNow / Touch n Go QR Code" class="qr-img">
+    <p class="qr-subtext">Please attach payment receipt via WhatsApp after scanning.</p>
+  </div>
+
   <div class="cart-footer">
     <div class="cart-summary">
       <div class="summary-line"><span>Subtotal:</span> RM <span id="cart-subtotal">0.00</span></div>
       <div class="summary-line discount" id="discount-row" style="display:none; color: #e74c3c;"><span>Discount:</span> -RM <span id="cart-discount">0.00</span></div>
       <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
     </div>
-    <button onclick="checkoutWA()" class="checkout-btn">Checkout via WhatsApp</button>
+    <button onclick="checkoutWA()" class="checkout-btn">Send Receipt & Order to WhatsApp</button>
   </div>
 </div>
 
@@ -416,13 +423,12 @@
     document.getElementById('cart-drawer').classList.add('open');
   }
 
-  // 应用优惠码逻辑（RM 2.00 OFF）
   function applyPromoCode() {
     let code = document.getElementById('promo-code-input').value.trim().toUpperCase();
     let msg = document.getElementById('promo-msg');
 
     if (code === "FIRST5") {
-      discountAmount = 2.00; // 👈 优惠金额改为 RM 2.00
+      discountAmount = 2.00;
       appliedCode = "FIRST5";
       msg.style.color = "#27ae60";
       msg.innerText = "✓ Code FIRST5 applied! (-RM 2.00 for First 5 Orders)";
@@ -489,7 +495,7 @@
   function checkoutWA() {
     if (cart.length === 0) return alert("Your cart is empty!");
     
-    let message = "Hi! I would like to place an order:%0A%0A";
+    let message = "Hi! I have scanned the QR code to pay and would like to place an order:%0A%0A";
     message += "📦 *ORDER ITEMS:*%0A";
     let subtotal = 0;
     
@@ -505,7 +511,8 @@
     if (discountAmount > 0) {
       message += `Discount (${appliedCode}): -RM ${discountAmount.toFixed(2)}%0A`;
     }
-    message += `💰 *TOTAL AMOUNT:* RM ${finalTotal.toFixed(2)}%0A%0A`;
+    message += `💰 *TOTAL PAID:* RM ${finalTotal.toFixed(2)}%0A`;
+    message += `📌 *(Payment Receipt Attached Below)*%0A%0A`;
     
     message += "----------------------------------%0A";
     message += "📋 *CUSTOMER INFORMATION:*%0A";
