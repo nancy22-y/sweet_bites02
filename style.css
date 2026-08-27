@@ -345,13 +345,16 @@ footer {
   font-size: 13px;
   border-bottom: 1px solid #e8d7c8;
 }
+/* 修正后的 Code 标签样式 */
 .code-tag {
   background: #5b463b;
   color: #fff;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 4px;
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: normal; /* 恢复正常字母间距，不再分线开 */
+  display: inline-block;
+  font-family: Arial, sans-serif; /* 统一字体格式 */
 }
 
 /* 购物车优惠码输入框与结算区域样式 */
