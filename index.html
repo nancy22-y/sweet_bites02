@@ -9,6 +9,11 @@
 
 <body>
 
+<!-- 顶部活动公告栏 -->
+<div class="promo-banner">
+  🎉 <strong>WEBSITE LAUNCH SPECIAL:</strong> First 5 orders get <strong>RM 3.00 OFF</strong>! Use code: <span class="code-tag">FIRST5</span>
+</div>
+
 <header>
   <a href="#" class="logo">sweet_bites02</a>
 
@@ -55,14 +60,13 @@
 
   <div class="product-grid">
 
-    <!-- 1. 雪媚娘（支持单粒按口味选 / 整盒选择） -->
+    <!-- 1. 雪媚娘 -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
         <h3>雪媚娘</h3>
         <p>Soft, chewy and creamy handmade mochi dessert.</p>
 
-        <!-- 模式切换：单粒 / 整盒 -->
         <div class="option-select-wrapper">
           <label for="mochi-mode">Type:</label>
           <select id="mochi-mode" onchange="toggleMochiMode()">
@@ -258,11 +262,24 @@
     <h3>Your Order</h3>
     <span onclick="toggleCart()" class="close-btn">&times;</span>
   </div>
+  
   <div id="cart-items" class="cart-items">
     <p class="empty-msg">Your cart is empty.</p>
   </div>
+
+  <!-- 优惠码输入区 -->
+  <div class="promo-input-box">
+    <input type="text" id="promo-code-input" placeholder="Promo Code (e.g. FIRST5)" style="text-transform:uppercase;">
+    <button onclick="applyPromoCode()">Apply</button>
+  </div>
+  <p id="promo-msg" class="promo-msg"></p>
+
   <div class="cart-footer">
-    <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
+    <div class="cart-summary">
+      <div class="summary-line"><span>Subtotal:</span> RM <span id="cart-subtotal">0.00</span></div>
+      <div class="summary-line discount" id="discount-row" style="display:none; color: #e74c3c;"><span>Discount:</span> -RM <span id="cart-discount">0.00</span></div>
+      <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
+    </div>
     <button onclick="checkoutWA()" class="checkout-btn">Checkout via WhatsApp</button>
   </div>
 </div>
@@ -284,6 +301,8 @@
 <!-- 购物车逻辑 -->
 <script>
   let cart = [];
+  let discountAmount = 0;
+  let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
 
   function changeQty(id, delta) {
@@ -324,7 +343,6 @@
     ];
 
     let addedAny = false;
-
     flavors.forEach(f => {
       let qtyInput = document.getElementById('qty-mochi-' + f.id);
       let qty = parseInt(qtyInput.value);
@@ -335,9 +353,7 @@
       }
     });
 
-    if (!addedAny) {
-      alert("Please select at least 1 mochi flavor!");
-    }
+    if (!addedAny) alert("Please select at least 1 mochi flavor!");
   }
 
   function addMochiBoxToCart() {
@@ -358,7 +374,6 @@
     if (l > 0) flavorDetails.push(`${l} Longan`);
 
     let boxName = `雪媚娘 Box (${flavorDetails.join(', ')})`;
-    
     addToCartCustom(boxName, 18.00, 1);
 
     document.getElementById('qty-mochi-b-grapes').value = 0;
@@ -401,16 +416,43 @@
     document.getElementById('cart-drawer').classList.add('open');
   }
 
+  // 应用优惠码逻辑
+  function applyPromoCode() {
+    let code = document.getElementById('promo-code-input').value.trim().toUpperCase();
+    let msg = document.getElementById('promo-msg');
+
+    if (code === "FIRST5") {
+      discountAmount = 3.00;
+      appliedCode = "FIRST5";
+      msg.style.color = "#27ae60";
+      msg.innerText = "✓ Code FIRST5 applied (-RM 3.00)";
+    } else if (code === "") {
+      discountAmount = 0;
+      appliedCode = "";
+      msg.innerText = "";
+    } else {
+      discountAmount = 0;
+      appliedCode = "";
+      msg.style.color = "#e74c3c";
+      msg.innerText = "❌ Invalid Promo Code";
+    }
+    updateCartUI();
+  }
+
   function updateCartUI() {
     let container = document.getElementById('cart-items');
-    let totalCount = 0, totalPrice = 0;
+    let totalCount = 0, subtotal = 0;
+    
     if (cart.length === 0) {
       container.innerHTML = '<p class="empty-msg">Your cart is empty.</p>';
+      discountAmount = 0;
+      appliedCode = "";
+      document.getElementById('discount-row').style.display = "none";
     } else {
       container.innerHTML = '';
       cart.forEach((item, index) => {
         totalCount += item.qty;
-        totalPrice += item.price * item.qty;
+        subtotal += item.price * item.qty;
         container.innerHTML += `
           <div class="cart-item">
             <div><strong>${item.name}</strong><br>RM ${item.price.toFixed(2)} x ${item.qty}</div>
@@ -418,8 +460,20 @@
           </div>`;
       });
     }
+
+    let finalTotal = Math.max(0, subtotal - discountAmount);
+
     document.getElementById('cart-count').innerText = totalCount;
-    document.getElementById('cart-total-price').innerText = totalPrice.toFixed(2);
+    document.getElementById('cart-subtotal').innerText = subtotal.toFixed(2);
+    
+    if (discountAmount > 0) {
+      document.getElementById('discount-row').style.display = "flex";
+      document.getElementById('cart-discount').innerText = discountAmount.toFixed(2);
+    } else {
+      document.getElementById('discount-row').style.display = "none";
+    }
+
+    document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2);
   }
 
   function removeItem(index) {
@@ -431,21 +485,26 @@
     document.getElementById('cart-drawer').classList.toggle('open');
   }
 
-  // 格式化输出 WhatsApp 必须信息
   function checkoutWA() {
     if (cart.length === 0) return alert("Your cart is empty!");
     
     let message = "Hi! I would like to place an order:%0A%0A";
     message += "📦 *ORDER ITEMS:*%0A";
-    let grandTotal = 0;
+    let subtotal = 0;
     
     cart.forEach(item => {
-      let subtotal = item.price * item.qty;
-      grandTotal += subtotal;
-      message += `• ${item.name} x${item.qty} = RM ${subtotal.toFixed(2)}%0A`;
+      let itemSub = item.price * item.qty;
+      subtotal += itemSub;
+      message += `• ${item.name} x${item.qty} = RM ${itemSub.toFixed(2)}%0A`;
     });
-    
-    message += `%0A💰 *TOTAL:* RM ${grandTotal.toFixed(2)}%0A%0A`;
+
+    let finalTotal = Math.max(0, subtotal - discountAmount);
+
+    message += `%0ASubtotal: RM ${subtotal.toFixed(2)}%0A`;
+    if (discountAmount > 0) {
+      message += `Discount (${appliedCode}): -RM ${discountAmount.toFixed(2)}%0A`;
+    }
+    message += `💰 *TOTAL AMOUNT:* RM ${finalTotal.toFixed(2)}%0A%0A`;
     
     message += "----------------------------------%0A";
     message += "📋 *CUSTOMER INFORMATION:*%0A";
