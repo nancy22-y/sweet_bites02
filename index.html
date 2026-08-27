@@ -41,7 +41,7 @@
 
   <div class="hero-image">
     <img src="images/hero.jpg" alt="sweet_bites02 desserts">
-</div>
+  </div>
 </section>
 
 <section id="products" class="products">
@@ -54,36 +54,55 @@
 
   <div class="product-grid">
 
+    <!-- 1. 雪媚娘 -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
         <h3>雪媚娘</h3>
         <p>Soft, chewy and creamy handmade mochi dessert.</p>
         <strong>RM 18.00</strong>
-        <a href="https://wa.me/60184007016?text=Hi!%20I%20would%20like%20to%20order%20雪媚娘" target="_blank" class="order-button">Order</a>
+        <div class="quantity-control">
+          <button onclick="changeQty('mochi', -1)">-</button>
+          <input type="number" id="qty-mochi" value="1" min="1" readonly>
+          <button onclick="changeQty('mochi', 1)">+</button>
+        </div>
+        <button onclick="addToCart('雪媚娘', 18.00, 'mochi')" class="order-button">Add to Cart</button>
       </div>
     </div>
 
+    <!-- 2. 巴斯克蛋糕 -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
         <h3>Basque Cheesecake</h3>
         <p>Creamy, rich and beautifully caramelised.</p>
         <strong>RM 22.00</strong>
-        <a href="https://wa.me/60184007016?text=Hi!%20I%20would%20like%20to%20order%20雪媚娘" target="_blank" class="order-button">Order</a>
+        <div class="quantity-control">
+          <button onclick="changeQty('cake', -1)">-</button>
+          <input type="number" id="qty-cake" value="1" min="1" readonly>
+          <button onclick="changeQty('cake', 1)">+</button>
+        </div>
+        <button onclick="addToCart('Basque Cheesecake', 22.00, 'cake')" class="order-button">Add to Cart</button>
       </div>
     </div>
 
+    <!-- 3. 冰豆花 -->
     <div class="product-card">
       <img src="images/tofu-pudding.jpg" alt="冰豆花">
       <div class="product-info">
         <h3>冰豆花</h3>
         <p>Silky chilled tofu pudding with delicious toppings.</p>
         <strong>RM 6.50</strong>
-        <a href="https://wa.me/60184007016?text=Hi!%20I%20would%20like%20to%20order%20雪媚娘" target="_blank" class="order-button">Order</a>
+        <div class="quantity-control">
+          <button onclick="changeQty('tofu', -1)">-</button>
+          <input type="number" id="qty-tofu" value="1" min="1" readonly>
+          <button onclick="changeQty('tofu', 1)">+</button>
+        </div>
+        <button onclick="addToCart('冰豆花', 6.50, 'tofu')" class="order-button">Add to Cart</button>
       </div>
     </div>
 
+    <!-- 4. 传统月饼 -->
     <div class="product-card">
       <img src="images/mooncake.jpg" alt="传统月饼">
       <div class="product-info">
@@ -91,7 +110,12 @@
         <h3>传统月饼</h3>
         <p>Traditional mooncakes from our seasonal collection.</p>
         <strong>RM 0.00</strong>
-        <a href="https://wa.me/60184007016?text=Hi!%20I%20would%20like%20to%20order%20雪媚娘" target="_blank" class="order-button">Order</a>
+        <div class="quantity-control">
+          <button onclick="changeQty('mooncake', -1)">-</button>
+          <input type="number" id="qty-mooncake" value="1" min="1" readonly>
+          <button onclick="changeQty('mooncake', 1)">+</button>
+        </div>
+        <button onclick="addToCart('传统月饼', 0.00, 'mooncake')" class="order-button">Add to Cart</button>
       </div>
     </div>
 
@@ -99,23 +123,107 @@
 
 </section>
 
+<!-- 浮动购物车图标 -->
+<div class="cart-icon" onclick="toggleCart()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
+<!-- 侧边弹出购物车 -->
+<div id="cart-drawer" class="cart-drawer">
+  <div class="cart-header">
+    <h3>Your Order</h3>
+    <span onclick="toggleCart()" class="close-btn">&times;</span>
+  </div>
+  <div id="cart-items" class="cart-items">
+    <p class="empty-msg">Your cart is empty.</p>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
+    <button onclick="checkoutWA()" class="checkout-btn">Checkout via WhatsApp</button>
+  </div>
+</div>
+
+<!-- 你的 About 部分 -->
 <section id="about" class="about">
-
   <p class="small-title">ABOUT US</p>
-
   <h2>Made for sweet little moments.</h2>
-
   <p>
     Welcome to sweet_bites02 ♡
     We make homemade desserts with love,
     from our kitchen to your table.
   </p>
-
 </section>
 
+<!-- 你的 Footer 部分 -->
 <footer>
   © 2026 sweet_bites02 · Made with love ♡
 </footer>
+
+<!-- 购物车与 WhatsApp 脚本 -->
+<script>
+  let cart = [];
+  const PHONE_NUMBER = "60184007016"; // 你的号码
+
+  function changeQty(id, delta) {
+    let input = document.getElementById('qty-' + id);
+    let current = parseInt(input.value);
+    if (current + delta >= 1) input.value = current + delta;
+  }
+
+  function addToCart(name, price, id) {
+    let qtyInput = document.getElementById('qty-' + id);
+    let qty = parseInt(qtyInput.value);
+    let item = cart.find(i => i.name === name);
+    if (item) item.qty += qty;
+    else cart.push({ name, price, qty });
+    qtyInput.value = 1;
+    updateCartUI();
+    document.getElementById('cart-drawer').classList.add('open');
+  }
+
+  function updateCartUI() {
+    let container = document.getElementById('cart-items');
+    let totalCount = 0, totalPrice = 0;
+    if (cart.length === 0) {
+      container.innerHTML = '<p class="empty-msg">Your cart is empty.</p>';
+    } else {
+      container.innerHTML = '';
+      cart.forEach((item, index) => {
+        totalCount += item.qty;
+        totalPrice += item.price * item.qty;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div><strong>${item.name}</strong><br>RM ${item.price.toFixed(2)} x ${item.qty}</div>
+            <button onclick="removeItem(${index})">Delete</button>
+          </div>`;
+      });
+    }
+    document.getElementById('cart-count').innerText = totalCount;
+    document.getElementById('cart-total-price').innerText = totalPrice.toFixed(2);
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+  }
+
+  function toggleCart() {
+    document.getElementById('cart-drawer').classList.toggle('open');
+  }
+
+  function checkoutWA() {
+    if (cart.length === 0) return alert("Your cart is empty!");
+    let message = "Hi! I would like to place an order:%0A%0A";
+    let grandTotal = 0;
+    cart.forEach(item => {
+      let subtotal = item.price * item.qty;
+      grandTotal += subtotal;
+      message += `• ${item.name} x${item.qty} = RM ${subtotal.toFixed(2)}%0A`;
+    });
+    message += `%0ATotal Amount: RM ${grandTotal.toFixed(2)}`;
+    window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, '_blank');
+  }
+</script>
 
 </body>
 </html>
