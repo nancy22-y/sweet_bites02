@@ -54,35 +54,58 @@
 
   <div class="product-grid">
 
-    <!-- 1. 雪媚娘 -->
+    <!-- 1. 雪媚娘（带口味选择） -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
         <h3>雪媚娘</h3>
-        <p>Soft, chewy and creamy handmade mochi dessert.(4 pieces)</p>
+        <p>Soft, chewy and creamy handmade mochi dessert.</p>
+        
+        <!-- 口味选择框 -->
+        <div class="option-select-wrapper">
+          <label for="mochi-flavor">Flavor:</label>
+          <select id="mochi-flavor">
+            <option value="Grapes">Grapes</option>
+            <option value="Mango">Mango</option>
+            <option value="Oreo">Oreo</option>
+            <option value="Longan">Longan</option>
+          </select>
+        </div>
+
         <strong>RM 18.00</strong>
         <div class="quantity-control">
           <button onclick="changeQty('mochi', -1)">-</button>
           <input type="number" id="qty-mochi" value="1" min="1" readonly>
           <button onclick="changeQty('mochi', 1)">+</button>
         </div>
-        <button onclick="addToCart('雪媚娘', 18.00, 'mochi')" class="order-button">Add to Cart</button>
+        <button onclick="addMochiToCart()" class="order-button">Add to Cart</button>
       </div>
     </div>
 
-    <!-- 2. 巴斯克蛋糕 -->
+    <!-- 2. 巴斯克蛋糕（带尺寸选择） -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
         <h3>Basque Cheesecake</h3>
         <p>Creamy, rich and beautifully caramelised.</p>
-        <strong>RM 22.00</strong>
+
+        <!-- 尺寸选择框 -->
+        <div class="option-select-wrapper">
+          <label for="cake-size">Size:</label>
+          <select id="cake-size" onchange="updateCakePrice()">
+            <option value="4 inch" data-price="22.00">4 inch - RM 22.00</option>
+            <option value="6 inch" data-price="45.00">6 inch - RM 45.00</option>
+          </select>
+        </div>
+
+        <strong id="cake-price-display">RM 22.00</strong>
+
         <div class="quantity-control">
           <button onclick="changeQty('cake', -1)">-</button>
           <input type="number" id="qty-cake" value="1" min="1" readonly>
           <button onclick="changeQty('cake', 1)">+</button>
         </div>
-        <button onclick="addToCart('Basque Cheesecake', 22.00, 'cake')" class="order-button">Add to Cart</button>
+        <button onclick="addCakeToCart()" class="order-button">Add to Cart</button>
       </div>
     </div>
 
@@ -143,7 +166,6 @@
   </div>
 </div>
 
-<!-- 你的 About 部分 -->
 <section id="about" class="about">
   <p class="small-title">ABOUT US</p>
   <h2>Made for sweet little moments.</h2>
@@ -154,20 +176,42 @@
   </p>
 </section>
 
-<!-- 你的 Footer 部分 -->
 <footer>
   © 2026 sweet_bites02 · Made with love ♡
 </footer>
 
-<!-- 购物车与 WhatsApp 脚本 -->
+<!-- 购物车逻辑 -->
 <script>
   let cart = [];
-  const PHONE_NUMBER = "60184007016"; // 你的号码
+  const PHONE_NUMBER = "60184007016";
 
   function changeQty(id, delta) {
     let input = document.getElementById('qty-' + id);
     let current = parseInt(input.value);
     if (current + delta >= 1) input.value = current + delta;
+  }
+
+  // 专属雪媚娘（带口味）加入购物车
+  function addMochiToCart() {
+    let flavor = document.getElementById('mochi-flavor').value;
+    let fullName = `雪媚娘 (${flavor})`;
+    addToCart(fullName, 18.00, 'mochi');
+  }
+
+  // 专属巴斯克蛋糕切换价格
+  function updateCakePrice() {
+    let select = document.getElementById('cake-size');
+    let price = select.options[select.selectedIndex].getAttribute('data-price');
+    document.getElementById('cake-price-display').innerText = 'RM ' + parseFloat(price).toFixed(2);
+  }
+
+  // 专属巴斯克蛋糕（带尺寸）加入购物车
+  function addCakeToCart() {
+    let select = document.getElementById('cake-size');
+    let size = select.value;
+    let price = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
+    let fullName = `Basque Cheesecake (${size})`;
+    addToCart(fullName, price, 'cake');
   }
 
   function addToCart(name, price, id) {
