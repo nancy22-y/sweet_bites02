@@ -54,47 +54,69 @@
 
   <div class="product-grid">
 
-    <!-- 1. 雪媚娘（带口味选择） -->
+    <!-- 1. 雪媚娘（一盒多口味组合） -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
-        <h3>雪媚娘</h3>
-        <p>Soft, chewy and creamy handmade mochi dessert.</p>
-        
-        <!-- 口味选择框 -->
-        <div class="option-select-wrapper">
-          <label for="mochi-flavor">Flavor:</label>
-          <select id="mochi-flavor">
-            <option value="Grapes">Grapes</option>
-            <option value="Mango">Mango</option>
-            <option value="Oreo">Oreo</option>
-            <option value="Longan">Longan</option>
-          </select>
+        <h3>雪媚娘 (一盒/Box)-4 pieces</h3>
+        <p>Soft, chewy and creamy handmade mochi dessert. Mix & match flavors per box!</p>
+        <strong>RM 18.00 / Box</strong>
+
+        <!-- 多口味挑选 -->
+        <div class="flavor-selector">
+          <div class="flavor-item">
+            <span>🍇 Grapes</span>
+            <div class="quantity-control mini">
+              <button onclick="changeFlavorQty('grapes', -1)">-</button>
+              <input type="number" id="qty-mochi-grapes" value="0" min="0" readonly>
+              <button onclick="changeFlavorQty('grapes', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="flavor-item">
+            <span>🥭 Mango</span>
+            <div class="quantity-control mini">
+              <button onclick="changeFlavorQty('mango', -1)">-</button>
+              <input type="number" id="qty-mochi-mango" value="0" min="0" readonly>
+              <button onclick="changeFlavorQty('mango', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="flavor-item">
+            <span>🍪 Oreo</span>
+            <div class="quantity-control mini">
+              <button onclick="changeFlavorQty('oreo', -1)">-</button>
+              <input type="number" id="qty-mochi-oreo" value="0" min="0" readonly>
+              <button onclick="changeFlavorQty('oreo', 1)">+</button>
+            </div>
+          </div>
+
+          <div class="flavor-item">
+            <span>🍈 Longan</span>
+            <div class="quantity-control mini">
+              <button onclick="changeFlavorQty('longan', -1)">-</button>
+              <input type="number" id="qty-mochi-longan" value="0" min="0" readonly>
+              <button onclick="changeFlavorQty('longan', 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <strong>RM 18.00</strong>
-        <div class="quantity-control">
-          <button onclick="changeQty('mochi', -1)">-</button>
-          <input type="number" id="qty-mochi" value="1" min="1" readonly>
-          <button onclick="changeQty('mochi', 1)">+</button>
-        </div>
-        <button onclick="addMochiToCart()" class="order-button">Add to Cart</button>
+        <button onclick="addMochiBoxToCart()" class="order-button">Add 1 Box to Cart</button>
       </div>
     </div>
 
-    <!-- 2. 巴斯克蛋糕（带尺寸选择） -->
+    <!-- 2. 巴斯克蛋糕 -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
         <h3>Basque Cheesecake</h3>
         <p>Creamy, rich and beautifully caramelised.</p>
 
-        <!-- 尺寸选择框 -->
         <div class="option-select-wrapper">
           <label for="cake-size">Size:</label>
           <select id="cake-size" onchange="updateCakePrice()">
             <option value="4 inch" data-price="22.00">4 inch - RM 22.00</option>
-            <option value="6 inch" data-price="45.00">6 inch - RM 45.00</option>
+            <option value="6 inch" data-price="42.00">6 inch - RM 42.00</option>
           </select>
         </div>
 
@@ -191,11 +213,52 @@
     if (current + delta >= 1) input.value = current + delta;
   }
 
-  // 专属雪媚娘（带口味）加入购物车
-  function addMochiToCart() {
-    let flavor = document.getElementById('mochi-flavor').value;
-    let fullName = `雪媚娘 (${flavor})`;
-    addToCart(fullName, 18.00, 'mochi');
+  // 修改雪媚娘口味加减
+  function changeFlavorQty(flavor, delta) {
+    let input = document.getElementById('qty-mochi-' + flavor);
+    let current = parseInt(input.value);
+    if (current + delta >= 0) input.value = current + delta;
+  }
+
+  // 一盒雪媚娘加入购物车（整盒售价 RM 18.00）
+  function addMochiBoxToCart() {
+    let g = parseInt(document.getElementById('qty-mochi-grapes').value);
+    let m = parseInt(document.getElementById('qty-mochi-mango').value);
+    let o = parseInt(document.getElementById('qty-mochi-oreo').value);
+    let l = parseInt(document.getElementById('qty-mochi-longan').value);
+
+    let totalSelected = g + m + o + l;
+
+    if (totalSelected === 0) {
+      alert("Please select your flavors for the box!");
+      return;
+    }
+
+    // 拼接口味明细描述
+    let flavorDetails = [];
+    if (g > 0) flavorDetails.push(`${g} Grapes`);
+    if (m > 0) flavorDetails.push(`${m} Mango`);
+    if (o > 0) flavorDetails.push(`${o} Oreo`);
+    if (l > 0) flavorDetails.push(`${l} Longan`);
+
+    let boxName = `雪媚娘 Box (${flavorDetails.join(', ')})`;
+    let boxPrice = 18.00; // 整盒固定价格 RM 18.00
+
+    let item = cart.find(i => i.name === boxName);
+    if (item) {
+      item.qty += 1;
+    } else {
+      cart.push({ name: boxName, price: boxPrice, qty: 1 });
+    }
+
+    // 清空口味选择框
+    document.getElementById('qty-mochi-grapes').value = 0;
+    document.getElementById('qty-mochi-mango').value = 0;
+    document.getElementById('qty-mochi-oreo').value = 0;
+    document.getElementById('qty-mochi-longan').value = 0;
+
+    updateCartUI();
+    document.getElementById('cart-drawer').classList.add('open');
   }
 
   // 专属巴斯克蛋糕切换价格
@@ -205,7 +268,7 @@
     document.getElementById('cake-price-display').innerText = 'RM ' + parseFloat(price).toFixed(2);
   }
 
-  // 专属巴斯克蛋糕（带尺寸）加入购物车
+  // 专属巴斯克蛋糕加入购物车
   function addCakeToCart() {
     let select = document.getElementById('cake-size');
     let size = select.value;
