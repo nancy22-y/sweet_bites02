@@ -9,7 +9,7 @@
 
 <body>
 
-<!-- 顶部活动公告栏 -->
+<!-- 顶部活动公告栏（已修改为 RM 2.00 OFF） -->
 <div class="promo-banner">
   🎉 <strong>WEBSITE LAUNCH SPECIAL:</strong> First 5 orders get <strong>RM 2.00 OFF</strong>! Use code: <span class="code-tag">FIRST5</span>
 </div>
@@ -171,7 +171,7 @@
           <label for="cake-size">Size:</label>
           <select id="cake-size" onchange="updateCakePrice()">
             <option value="4 inch" data-price="22.00">4 inch - RM 22.00</option>
-            <option value="6 inch" data-price="42.00">6 inch - RM 42.00</option>
+            <option value="6 inch" data-price="45.00">6 inch - RM 45.00</option>
           </select>
         </div>
 
@@ -240,7 +240,7 @@
     <div class="delivery-card">
       <div class="delivery-icon">🚗</div>
       <h3>GrabExpress Delivery</h3>
-      <p>Delivery fee will be paid by customer (邮费自付). We will arrange GrabExpress to send desserts right to your doorstep.</p>
+      <p>Delivery fee will be paid by customer (邮费自付). We will arrange GrabExpress or Lalamove to send desserts right to your doorstep.</p>
     </div>
 
     <div class="delivery-card">
@@ -269,10 +269,10 @@
 
   <!-- 优惠码输入区 -->
   <div class="promo-input-box">
-    <input type="text" id="promo-code-input" placeholder="Promo Code(e.g.FIRST5)" style="text-transform:uppercase;">
+    <input type="text" id="promo-code-input" placeholder="Enter FIRST5" style="text-transform:uppercase;">
     <button onclick="applyPromoCode()">Apply</button>
   </div>
-  <p id="promo-msg" class="promo-msg"></p>
+  <p id="promo-msg" class="promo-msg" style="font-size: 11px; color: #888;">* Limited to first 5 website orders only.</p>
 
   <div class="cart-footer">
     <div class="cart-summary">
@@ -416,20 +416,21 @@
     document.getElementById('cart-drawer').classList.add('open');
   }
 
-  // 应用优惠码逻辑
+  // 应用优惠码逻辑（RM 2.00 OFF）
   function applyPromoCode() {
     let code = document.getElementById('promo-code-input').value.trim().toUpperCase();
     let msg = document.getElementById('promo-msg');
 
     if (code === "FIRST5") {
-      discountAmount = 3.00;
+      discountAmount = 2.00; // 👈 优惠金额改为 RM 2.00
       appliedCode = "FIRST5";
       msg.style.color = "#27ae60";
-      msg.innerText = "✓ Code FIRST5 applied (-RM 3.00)";
+      msg.innerText = "✓ Code FIRST5 applied! (-RM 2.00 for First 5 Orders)";
     } else if (code === "") {
       discountAmount = 0;
       appliedCode = "";
-      msg.innerText = "";
+      msg.style.color = "#888";
+      msg.innerText = "* Limited to first 5 website orders only.";
     } else {
       discountAmount = 0;
       appliedCode = "";
