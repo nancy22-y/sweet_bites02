@@ -9,13 +9,11 @@
 
 <body>
 
-<!-- Banner 1: 实时接单状态 & 优惠码 -->
 <div id="status-banner" class="promo-banner" style="background: #27ae60; color: #fff;">
   🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)
 </div>
 
-<!-- Banner 2: 取货日期 (独立展示) -->
-<div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+<div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
   📅 <strong>NEXT PICKUP DATE:</strong> <span id="banner-pickup-date">Sunday, 30 Aug</span>
 </div>
 
@@ -51,7 +49,6 @@
 
   <div class="product-grid">
 
-    <!-- 1. 雪媚娘 -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
@@ -149,7 +146,6 @@
       </div>
     </div>
 
-    <!-- 2. 巴斯克蛋糕 -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
@@ -175,7 +171,6 @@
       </div>
     </div>
 
-    <!-- 3. 冰豆花 -->
     <div class="product-card">
       <img src="images/tofu-pudding.jpeg" alt="冰豆花">
       <div class="product-info">
@@ -191,7 +186,6 @@
       </div>
     </div>
 
-    <!-- 4. 传统月饼 (滑动平移轮播 Carousel) -->
     <div class="product-card">
       <p class="seasonal">SEASONAL</p>
       
@@ -199,7 +193,7 @@
         <div class="carousel-slide" id="mc-carousel-slide">
           <img src="images/mooncake-1.jpeg" alt="传统月饼 1">
           <img src="images/mooncake-2.jpeg" alt="传统月饼 2">
-        
+          <img src="images/mooncake-3.jpeg" alt="传统月饼 3">
         </div>
         <button class="carousel-btn prev" onclick="moveMcCarousel(-1)">&#10094;</button>
         <button class="carousel-btn next" onclick="moveMcCarousel(1)">&#10095;</button>
@@ -210,9 +204,9 @@
         <p>Mix 4 pieces per box.</p>
         <strong>RM 25.00 / Box</strong>
 
-        <p style="font-size: 11px; color: #888; margin-top: 4px;">Select 4 pcs (<span id="mc-count-display" style="font-weight:bold; color:#e74c3c;">0</span>/4):</p>
+        <p style="font-size: 11px; color: #888; margin-top: 2px;">Select 4 pcs (Total: <span id="mc-count-display" style="font-weight:bold; color:#e74c3c;">0</span>/4):</p>
         
-        <div class="flavor-selector scrollable-selector">
+        <div class="flavor-selector">
           <div class="flavor-item">
             <span>🥮 翡翠豆蓉</span>
             <div class="quantity-control mini">
@@ -251,28 +245,26 @@
       </div>
     </div>
 
-    <!-- 5. 原味公仔饼 -->
     <div class="product-card">
       <p class="seasonal">SEASONAL</p>
       <img src="images/mooncake-3.jpeg" alt="原味公仔饼">
       <div class="product-info">
         <h3>原味公仔饼</h3>
         <p>Traditional handmade piglet biscuits (1 Box / 10 pcs).</p>
-        <strong>RM 11.00 / Box</strong>
+        <strong>RM 12.00 / Box</strong>
 
         <div class="quantity-control">
           <button onclick="changeQty('gongzai', -1)">-</button>
           <input type="number" id="qty-gongzai" value="1" min="1" readonly>
           <button onclick="changeQty('gongzai', 1)">+</button>
         </div>
-        <button onclick="addToCart('原味公仔饼 (10 pcs/Box)', 11.00, 'gongzai')" class="order-button cart-btn-action">Add to Cart</button>
+        <button onclick="addToCart('原味公仔饼 (10 pcs/Box)', 12.00, 'gongzai')" class="order-button cart-btn-action">Add to Cart</button>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- 取货 / 配送说明模块 -->
 <section id="delivery" class="delivery-info-section">
   <div class="section-title">
     <p class="small-title">HOW TO GET YOUR DESSERTS</p>
@@ -300,12 +292,10 @@
   </div>
 </section>
 
-<!-- 浮动购物车图标 -->
 <div class="cart-icon" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
-<!-- 侧边弹出购物车 -->
 <div id="cart-drawer" class="cart-drawer">
   <div class="cart-header">
     <h3>Your Order</h3>
@@ -382,7 +372,7 @@
   let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
 
-  // 平滑 Swipe 滑动轮播逻辑
+  // 横向平滑 Swipe 切换
   let currentMcIndex = 0;
   function moveMcCarousel(step) {
     let slideTrack = document.getElementById('mc-carousel-slide');
