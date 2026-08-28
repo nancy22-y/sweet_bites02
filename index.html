@@ -192,20 +192,69 @@
       </div>
     </div>
 
-    <!-- 4. 传统月饼 -->
+    <!-- 4. 传统月饼 (3张轮播图 + 1盒4粒自选口味 RM25.00) -->
     <div class="product-card">
-      <img src="images/mooncake.jpg" alt="传统月饼">
-      <div class="product-info">
-        <p class="seasonal">SEASONAL</p>
-        <h3>传统月饼</h3>
-        <p>Traditional mooncakes from our seasonal collection.</p>
-        <strong>RM 0.00</strong>
-        <div class="quantity-control">
-          <button onclick="changeQty('mooncake', -1)">-</button>
-          <input type="number" id="qty-mooncake" value="1" min="1" readonly>
-          <button onclick="changeQty('mooncake', 1)">+</button>
+      <p class="seasonal">SEASONAL</p>
+      
+      <!-- 三张照片轮播区域 -->
+      <div class="carousel-container">
+        <div class="carousel-slide" id="mc-carousel-slide">
+          <img src="images/mooncake-1.jpg" alt="传统月饼 1">
+          <img src="images/mooncake-2.jpg" alt="传统月饼 2">
+          <img src="images/mooncake-3.jpg" alt="传统月饼 3">
         </div>
-        <button onclick="addToCart('传统月饼', 0.00, 'mooncake')" class="order-button cart-btn-action">Add to Cart</button>
+        <button class="carousel-btn prev" onclick="moveMcCarousel(-1)">&#10094;</button>
+        <button class="carousel-btn next" onclick="moveMcCarousel(1)">&#10095;</button>
+        <div class="carousel-dots">
+          <span class="dot active" onclick="setMcSlide(0)"></span>
+          <span class="dot" onclick="setMcSlide(1)"></span>
+          <span class="dot" onclick="setMcSlide(2)"></span>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h3>传统月饼 (1 Box / 4 pcs)</h3>
+        <p>Mix & match 4 pieces of traditional mooncakes per box.</p>
+        <strong>RM 25.00 / Box</strong>
+
+        <p style="font-size: 12px; color: #888; margin-top: 8px;">Select 4 flavors for your box (Total: <span id="mc-count-display" style="font-weight:bold; color:#e74c3c;">0</span>/4):</p>
+        
+        <div class="flavor-selector">
+          <div class="flavor-item">
+            <span>🥮 翡翠豆蓉 (Pandan Mung Bean)</span>
+            <div class="quantity-control mini">
+              <button onclick="changeMcFlavor('pandan-bean', -1)">-</button>
+              <input type="number" id="qty-mc-pandan-bean" value="0" min="0" readonly>
+              <button onclick="changeMcFlavor('pandan-bean', 1)">+</button>
+            </div>
+          </div>
+          <div class="flavor-item">
+            <span>🥮 玫瑰豆沙 (Rose Red Bean)</span>
+            <div class="quantity-control mini">
+              <button onclick="changeMcFlavor('rose-redbean', -1)">-</button>
+              <input type="number" id="qty-mc-rose-redbean" value="0" min="0" readonly>
+              <button onclick="changeMcFlavor('rose-redbean', 1)">+</button>
+            </div>
+          </div>
+          <div class="flavor-item">
+            <span>🥮 咖啡 (Coffee)</span>
+            <div class="quantity-control mini">
+              <button onclick="changeMcFlavor('coffee', -1)">-</button>
+              <input type="number" id="qty-mc-coffee" value="0" min="0" readonly>
+              <button onclick="changeMcFlavor('coffee', 1)">+</button>
+            </div>
+          </div>
+          <div class="flavor-item">
+            <span>🥮 白豆蓉 (White Mung Bean)</span>
+            <div class="quantity-control mini">
+              <button onclick="changeMcFlavor('white-bean', -1)">-</button>
+              <input type="number" id="qty-mc-white-bean" value="0" min="0" readonly>
+              <button onclick="changeMcFlavor('white-bean', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="addMooncakeBoxToCart()" class="order-button cart-btn-action">Add 1 Box to Cart</button>
       </div>
     </div>
 
@@ -322,6 +371,76 @@
   let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
 
+  // 月饼轮播逻辑
+  let currentMcIndex = 0;
+  function moveMcCarousel(step) {
+    let slides = document.querySelectorAll('#mc-carousel-slide img');
+    let dots = document.querySelectorAll('.carousel-dots .dot');
+    currentMcIndex = (currentMcIndex + step + slides.length) % slides.length;
+    document.getElementById('mc-carousel-slide').style.transform = `translateX(-${currentMcIndex * 100}%)`;
+    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentMcIndex));
+  }
+  function setMcSlide(index) {
+    currentMcIndex = index;
+    document.getElementById('mc-carousel-slide').style.transform = `translateX(-${currentMcIndex * 100}%)`;
+    let dots = document.querySelectorAll('.carousel-dots .dot');
+    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentMcIndex));
+  }
+
+  // 月饼 4 种新口味选择逻辑 (限制1盒4粒 RM25)
+  function changeMcFlavor(flavorKey, delta) {
+    let input = document.getElementById('qty-mc-' + flavorKey);
+    let currentVal = parseInt(input.value);
+    
+    let pBean = parseInt(document.getElementById('qty-mc-pandan-bean').value);
+    let rBean = parseInt(document.getElementById('qty-mc-rose-redbean').value);
+    let coffee = parseInt(document.getElementById('qty-mc-coffee').value);
+    let wBean = parseInt(document.getElementById('qty-mc-white-bean').value);
+    let totalCount = pBean + rBean + coffee + wBean;
+
+    if (delta > 0 && totalCount >= 4) {
+      alert("Each box contains maximum 4 mooncakes!");
+      return;
+    }
+
+    if (currentVal + delta >= 0) {
+      input.value = currentVal + delta;
+      totalCount += delta;
+    }
+
+    document.getElementById('mc-count-display').innerText = totalCount;
+  }
+
+  function addMooncakeBoxToCart() {
+    if (!isStoreOpen) return alert("Pre-orders are currently closed!");
+    let pBean = parseInt(document.getElementById('qty-mc-pandan-bean').value);
+    let rBean = parseInt(document.getElementById('qty-mc-rose-redbean').value);
+    let coffee = parseInt(document.getElementById('qty-mc-coffee').value);
+    let wBean = parseInt(document.getElementById('qty-mc-white-bean').value);
+    let totalCount = pBean + rBean + coffee + wBean;
+
+    if (totalCount !== 4) {
+      alert(`Please select exactly 4 mooncakes for 1 box! (Currently selected: ${totalCount}/4)`);
+      return;
+    }
+
+    let flavors = [];
+    if (pBean > 0) flavors.push(`${pBean} 翡翠豆蓉`);
+    if (rBean > 0) flavors.push(`${rBean} 玫瑰豆沙`);
+    if (coffee > 0) flavors.push(`${coffee} 咖啡`);
+    if (wBean > 0) flavors.push(`${wBean} 白豆蓉`);
+
+    let boxName = `传统月饼 Box (${flavors.join(', ')})`;
+    addToCartCustom(boxName, 25.00, 1);
+
+    // 重置选择器
+    document.getElementById('qty-mc-pandan-bean').value = 0;
+    document.getElementById('qty-mc-rose-redbean').value = 0;
+    document.getElementById('qty-mc-coffee').value = 0;
+    document.getElementById('qty-mc-white-bean').value = 0;
+    document.getElementById('mc-count-display').innerText = 0;
+  }
+
   window.onload = function() {
     fetchStoreStatus();
   };
@@ -350,10 +469,8 @@
     const orderBtns = document.querySelectorAll('.cart-btn-action');
     const checkoutBtn = document.getElementById('checkout-btn');
 
-    // 更新取货日期 Banner 文字
     if(pickupDateSpan) pickupDateSpan.innerText = pickupDateText;
 
-    // 更新状态 Banner & 按钮权限
     if (isStoreOpen) {
       statusBanner.style.background = "#27ae60";
       statusBanner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)`;
@@ -383,15 +500,12 @@
   function promptAdminControl() {
     let inputPass = prompt("Enter Admin Password:");
     if (inputPass === ADMIN_PASS) {
-      // 1. 切换接单状态
       let wantToggle = confirm(`Current Status: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\n\nClick OK to TOGGLE status (Switch to ${isStoreOpen ? "CLOSED" : "OPEN"}), or Cancel to keep current status.`);
       let nextStatus = wantToggle ? !isStoreOpen : isStoreOpen;
 
-      // 2. 修改取货日期 (格式：星期几 + 几号)
       let newDate = prompt("Enter Pickup Day & Date (e.g. Sunday, 30 Aug):", pickupDateText);
       let finalDate = (newDate !== null && newDate.trim() !== "") ? newDate.trim() : pickupDateText;
 
-      // 保存更新
       toggleStoreStatus(nextStatus, finalDate);
     } else if (inputPass !== null) {
       alert("Wrong Password!");
