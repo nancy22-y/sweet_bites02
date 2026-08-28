@@ -178,7 +178,7 @@
 
     <!-- 3. 冰豆花 -->
     <div class="product-card">
-      <img src="images/tofu-pudding.jpeg" alt="冰豆花">
+      <img src="images/tofu-pudding.jpg" alt="冰豆花">
       <div class="product-info">
         <h3>冰豆花</h3>
         <p>Silky chilled tofu pudding with delicious toppings.</p>
@@ -192,36 +192,29 @@
       </div>
     </div>
 
-    <!-- 4. 传统月饼 (3张轮播图 + 1盒4粒自选口味 RM25.00) -->
+    <!-- 4. 传统月饼 (2张轮播图 + 1盒4粒自选 RM25.00) -->
     <div class="product-card">
       <p class="seasonal">SEASONAL</p>
       
-      <!-- 三张照片轮播区域 -->
       <div class="carousel-container">
         <div class="carousel-slide" id="mc-carousel-slide">
           <img src="images/mooncake-1.jpeg" alt="传统月饼 1">
           <img src="images/mooncake-2.jpeg" alt="传统月饼 2">
-          <img src="images/mooncake-3.jpeg" alt="传统月饼 3">
         </div>
         <button class="carousel-btn prev" onclick="moveMcCarousel(-1)">&#10094;</button>
         <button class="carousel-btn next" onclick="moveMcCarousel(1)">&#10095;</button>
-        <div class="carousel-dots">
-          <span class="dot active" onclick="setMcSlide(0)"></span>
-          <span class="dot" onclick="setMcSlide(1)"></span>
-          <span class="dot" onclick="setMcSlide(2)"></span>
-        </div>
       </div>
 
       <div class="product-info">
         <h3>传统月饼 (1 Box / 4 pcs)</h3>
-        <p>Mix & match 4 pieces of traditional mooncakes per box.</p>
+        <p>Mix 4 pieces per box.</p>
         <strong>RM 25.00 / Box</strong>
 
-        <p style="font-size: 12px; color: #888; margin-top: 8px;">Select 4 flavors for your box (Total: <span id="mc-count-display" style="font-weight:bold; color:#e74c3c;">0</span>/4):</p>
+        <p style="font-size: 11px; color: #888; margin-top: 4px;">Select 4 pcs (<span id="mc-count-display" style="font-weight:bold; color:#e74c3c;">0</span>/4):</p>
         
-        <div class="flavor-selector">
+        <div class="flavor-selector scrollable-selector">
           <div class="flavor-item">
-            <span>🥮 翡翠豆蓉 (Pandan Mung Bean)</span>
+            <span>🥮 翡翠豆蓉</span>
             <div class="quantity-control mini">
               <button onclick="changeMcFlavor('pandan-bean', -1)">-</button>
               <input type="number" id="qty-mc-pandan-bean" value="0" min="0" readonly>
@@ -229,7 +222,7 @@
             </div>
           </div>
           <div class="flavor-item">
-            <span>🥮 玫瑰豆沙 (Rose Red Bean)</span>
+            <span>🥮 玫瑰豆沙</span>
             <div class="quantity-control mini">
               <button onclick="changeMcFlavor('rose-redbean', -1)">-</button>
               <input type="number" id="qty-mc-rose-redbean" value="0" min="0" readonly>
@@ -237,7 +230,7 @@
             </div>
           </div>
           <div class="flavor-item">
-            <span>🥮 咖啡 (Coffee)</span>
+            <span>🥮 咖啡</span>
             <div class="quantity-control mini">
               <button onclick="changeMcFlavor('coffee', -1)">-</button>
               <input type="number" id="qty-mc-coffee" value="0" min="0" readonly>
@@ -245,7 +238,7 @@
             </div>
           </div>
           <div class="flavor-item">
-            <span>🥮 白豆蓉 (White Mung Bean)</span>
+            <span>🥮 白豆蓉</span>
             <div class="quantity-control mini">
               <button onclick="changeMcFlavor('white-bean', -1)">-</button>
               <input type="number" id="qty-mc-white-bean" value="0" min="0" readonly>
@@ -255,6 +248,24 @@
         </div>
 
         <button onclick="addMooncakeBoxToCart()" class="order-button cart-btn-action">Add 1 Box to Cart</button>
+      </div>
+    </div>
+
+    <!-- 5. 新增：原味公仔饼 (1 Box / 10 pcs - 对应的照片 mooncake-3.jpeg) -->
+    <div class="product-card">
+      <p class="seasonal">SEASONAL</p>
+      <img src="images/mooncake-3.jpeg" alt="原味公仔饼">
+      <div class="product-info">
+        <h3>原味公仔饼</h3>
+        <p>Traditional handmade piglet biscuits (1 Box / 10 pcs).</p>
+        <strong>RM 11.00 / Box</strong>
+
+        <div class="quantity-control">
+          <button onclick="changeQty('gongzai', -1)">-</button>
+          <input type="number" id="qty-gongzai" value="1" min="1" readonly>
+          <button onclick="changeQty('gongzai', 1)">+</button>
+        </div>
+        <button onclick="addToCart('原味公仔饼 (10 pcs/Box)', 11.00, 'gongzai')" class="order-button cart-btn-action">Add to Cart</button>
       </div>
     </div>
 
@@ -371,23 +382,15 @@
   let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
 
-  // 月饼轮播逻辑
+  // 月饼轮播逻辑 (左右按键切换)
   let currentMcIndex = 0;
   function moveMcCarousel(step) {
     let slides = document.querySelectorAll('#mc-carousel-slide img');
-    let dots = document.querySelectorAll('.carousel-dots .dot');
     currentMcIndex = (currentMcIndex + step + slides.length) % slides.length;
     document.getElementById('mc-carousel-slide').style.transform = `translateX(-${currentMcIndex * 100}%)`;
-    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentMcIndex));
-  }
-  function setMcSlide(index) {
-    currentMcIndex = index;
-    document.getElementById('mc-carousel-slide').style.transform = `translateX(-${currentMcIndex * 100}%)`;
-    let dots = document.querySelectorAll('.carousel-dots .dot');
-    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentMcIndex));
   }
 
-  // 月饼 4 种新口味选择逻辑 (限制1盒4粒 RM25)
+  // 月饼 4 种口味选择 (限制1盒4粒 RM25)
   function changeMcFlavor(flavorKey, delta) {
     let input = document.getElementById('qty-mc-' + flavorKey);
     let currentVal = parseInt(input.value);
@@ -433,7 +436,6 @@
     let boxName = `传统月饼 Box (${flavors.join(', ')})`;
     addToCartCustom(boxName, 25.00, 1);
 
-    // 重置选择器
     document.getElementById('qty-mc-pandan-bean').value = 0;
     document.getElementById('qty-mc-rose-redbean').value = 0;
     document.getElementById('qty-mc-coffee').value = 0;
