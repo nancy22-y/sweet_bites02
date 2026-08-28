@@ -191,7 +191,7 @@ nav a {
   z-index: 10;
 }
 
-/* 真正的滑动（Swipe/Slide）轮播视口 */
+/* 月饼图片纯横向 Swipe 视口 (完全不改变卡片高度) */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -200,7 +200,6 @@ nav a {
   background: #f0f0f0;
 }
 
-/* 图片轨道：并排横拉，滑块平滑平移 */
 .carousel-slide {
   display: flex;
   width: 100%;
@@ -215,7 +214,6 @@ nav a {
   flex-shrink: 0;
 }
 
-/* 悬浮切换箭头 */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -285,15 +283,6 @@ nav a {
 
 .flavor-selector {
   margin: 8px 0;
-}
-
-.scrollable-selector {
-  max-height: 110px;
-  overflow-y: auto;
-  border: 1px solid #eee;
-  padding: 4px 6px;
-  border-radius: 6px;
-  background: #fafafa;
 }
 
 .flavor-item {
