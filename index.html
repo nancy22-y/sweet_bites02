@@ -9,6 +9,7 @@
 
 <body>
 
+<!-- 顶部活动公告栏 -->
 <div class="promo-banner">
   🎉 <strong>WEBSITE LAUNCH SPECIAL:</strong> First 5 orders get <strong>RM 2.00 OFF</strong>! Use code: <span class="code-tag">FIRST5</span>
 </div>
@@ -59,6 +60,7 @@
 
   <div class="product-grid">
 
+    <!-- 1. 雪媚娘 -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
@@ -75,6 +77,7 @@
 
         <strong id="mochi-price-display">RM 4.80 / pc</strong>
 
+        <!-- 单粒模式界面 -->
         <div id="mochi-piece-section">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Select quantity for each flavor:</p>
           <div class="flavor-selector">
@@ -114,6 +117,7 @@
           <button onclick="addMochiPiecesToCart()" class="order-button">Add to Cart</button>
         </div>
 
+        <!-- 整盒模式界面 -->
         <div id="mochi-box-section" style="display: none;">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Mix & match flavors for your box:</p>
           <div class="flavor-selector">
@@ -156,6 +160,7 @@
       </div>
     </div>
 
+    <!-- 2. 巴斯克蛋糕 -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
@@ -181,6 +186,7 @@
       </div>
     </div>
 
+    <!-- 3. 冰豆花 -->
     <div class="product-card">
       <img src="images/tofu-pudding.jpg" alt="冰豆花">
       <div class="product-info">
@@ -196,6 +202,7 @@
       </div>
     </div>
 
+    <!-- 4. 传统月饼 -->
     <div class="product-card">
       <img src="images/mooncake.jpg" alt="传统月饼">
       <div class="product-info">
@@ -216,6 +223,7 @@
 
 </section>
 
+<!-- 取货 / 配送说明模块 -->
 <section id="delivery" class="delivery-info-section">
   <div class="section-title">
     <p class="small-title">HOW TO GET YOUR DESSERTS</p>
@@ -238,15 +246,17 @@
     <div class="delivery-card">
       <div class="delivery-icon">❄️</div>
       <h3>Freshness Note</h3>
-      <p>All desserts are freshly handmade! Please keep them refrigerated upon receiving and enjoy within 2–3 days for the best taste.</p>
+      <p>All desserts are freshly handmade! Please keep them refrigerated upon receiving and enjoy within 1 days for the best taste.</p>
     </div>
   </div>
 </section>
 
+<!-- 浮动购物车图标 -->
 <div class="cart-icon" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
+<!-- 侧边弹出购物车 -->
 <div id="cart-drawer" class="cart-drawer">
   <div class="cart-header">
     <h3>Your Order</h3>
@@ -257,13 +267,24 @@
     <p class="empty-msg">Your cart is empty.</p>
   </div>
 
+  <!-- 优惠码输入区 -->
   <div class="promo-input-box">
     <input type="text" id="promo-code-input" placeholder="Enter FIRST5" style="text-transform:uppercase;">
     <button onclick="applyPromoCode()">Apply</button>
   </div>
   <p id="promo-msg" class="promo-msg" style="font-size: 11px; color: #888;">* Limited to first 5 website orders only.</p>
 
-  <div class="qr-payment-container">
+  <!-- 付款方式选择 (新增 COD 选项) -->
+  <div class="payment-method-select" style="margin-top: 10px;">
+    <label style="font-size: 12px; font-weight: bold; color: #5b463b;">Payment Method:</label>
+    <select id="payment-method-option" onchange="togglePaymentSection()" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 12px; margin-top: 4px;">
+      <option value="online">Online Transfer / Touch 'n Go (转账)</option>
+      <option value="cod">Cash on Delivery / Pickup (货到付款/自取现金)</option>
+    </select>
+  </div>
+
+  <!-- 线上付款信息区（根据选择可隐藏） -->
+  <div id="online-pay-box" class="qr-payment-container">
     <p class="qr-title"><strong>Payment (Touch 'n Go / DuitNow)</strong></p>
     
     <img src="images/payment-qr.jpeg" alt="DuitNow / Touch n Go QR Code" style="width: 140px; height: 140px; object-fit: contain; display: block; margin: 8px auto; border-radius: 8px; border: 1px solid #ddd;">
@@ -273,12 +294,17 @@
       <div>TNG/DuitNow: <strong>0184007016</strong></div>
     </div>
 
-    <div style="display: flex; gap: 6px; justify-content: center; margin-top: 8px;">
-      <button onclick="copyTNGNumber()" style="padding: 5px 10px; font-size: 11px; border-radius: 4px; border: 1px solid #5b463b; background: #fff; color: #5b463b; cursor: pointer;">📋 Copy Number</button>
-      <button onclick="openTNGApp()" style="padding: 5px 10px; font-size: 11px; border-radius: 4px; border: none; background: #005fb2; color: #fff; cursor: pointer; font-weight: bold;">🚀 Open TNG App</button>
+    <div style="margin-top: 8px;">
+      <button onclick="copyTNGNumber()" style="padding: 6px 14px; font-size: 12px; border-radius: 4px; border: 1px solid #5b463b; background: #5b463b; color: #fff; cursor: pointer; font-weight: bold;">📋 Copy Number (0184007016)</button>
     </div>
 
     <p class="qr-subtext">Please attach payment receipt via WhatsApp after transferring.</p>
+  </div>
+
+  <!-- COD 货到付款说明区 -->
+  <div id="cod-pay-box" class="qr-payment-container" style="display: none; background: #fdfefe; border-color: #27ae60;">
+    <p class="qr-title" style="color: #27ae60;"><strong>💵 Cash on Delivery (COD)</strong></p>
+    <p style="font-size: 12px; color: #555; margin: 5px 0;">Pay with cash upon self-pickup or delivery arrival.</p>
   </div>
 
   <div class="cart-footer">
@@ -287,7 +313,7 @@
       <div class="summary-line discount" id="discount-row" style="display:none; color: #e74c3c;"><span>Discount:</span> -RM <span id="cart-discount">0.00</span></div>
       <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
     </div>
-    <button onclick="checkoutWA()" class="checkout-btn">Send Receipt & Order to WhatsApp</button>
+    <button onclick="checkoutWA()" class="checkout-btn">Send Order to WhatsApp</button>
   </div>
 </div>
 
@@ -305,6 +331,7 @@
   © 2026 sweet_bites02 · Made with love ♡
 </footer>
 
+<!-- 购物车与逻辑 -->
 <script>
   let cart = [];
   let discountAmount = 0;
@@ -337,6 +364,20 @@
       priceDisplay.innerText = "RM 18.00 / Box";
       pieceSection.style.display = "none";
       boxSection.style.display = "block";
+    }
+  }
+
+  function togglePaymentSection() {
+    let method = document.getElementById('payment-method-option').value;
+    let onlineBox = document.getElementById('online-pay-box');
+    let codBox = document.getElementById('cod-pay-box');
+
+    if (method === 'online') {
+      onlineBox.style.display = 'block';
+      codBox.style.display = 'none';
+    } else {
+      onlineBox.style.display = 'none';
+      codBox.style.display = 'block';
     }
   }
 
@@ -491,36 +532,20 @@
     document.getElementById('cart-drawer').classList.toggle('open');
   }
 
-  // 一键复制号码并提示
+  // 复制号码功能
   function copyTNGNumber() {
     navigator.clipboard.writeText("0184007016");
-    alert("✓ Number 0184007016 copied! You can now paste it in TNG App.");
-  }
-
-  // 唤醒 Touch 'n Go App 官方跳转逻辑
-  function openTNGApp() {
-    // 自动先复制手机号码，方便顾客粘贴
-    navigator.clipboard.writeText("0184007016");
-    
-    // 使用深层链接尝试唤醒 TNG App
-    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
-    if (isiOS) {
-      // iOS 唤醒方式
-      window.location.href = "https://m.tngewallet.com.my";
-    } else {
-      // Android 唤醒方式
-      window.location.href = "tngewallet://";
-      setTimeout(function() {
-        window.location.href = "https://play.google.com/store/apps/details?id=my.com.tngdigital.ewallet";
-      }, 1500);
-    }
+    alert("✓ Number 0184007016 copied to clipboard!");
   }
 
   function checkoutWA() {
     if (cart.length === 0) return alert("Your cart is empty!");
     
-    let message = "Hi! I have made the payment to OOI YEE EN and would like to place an order:%0A%0A";
+    let method = document.getElementById('payment-method-option').value;
+    let paymentMethodText = method === 'online' ? "Online Transfer / TNG" : "Cash on Delivery (COD 现金付款)";
+
+    let message = "Hi! I would like to place an order:%0A%0A";
+    message += `💳 *PAYMENT METHOD:* ${paymentMethodText}%0A%0A`;
     message += "📦 *ORDER ITEMS:*%0A";
     let subtotal = 0;
     
@@ -536,8 +561,7 @@
     if (discountAmount > 0) {
       message += `Discount (${appliedCode}): -RM ${discountAmount.toFixed(2)}%0A`;
     }
-    message += `💰 *TOTAL PAID:* RM ${finalTotal.toFixed(2)}%0A`;
-    message += `📌 *(Payment Receipt Attached Below)*%0A%0A`;
+    message += `💰 *TOTAL AMOUNT:* RM ${finalTotal.toFixed(2)}%0A%0A`;
     
     message += "----------------------------------%0A";
     message += "📋 *CUSTOMER INFORMATION:*%0A";
