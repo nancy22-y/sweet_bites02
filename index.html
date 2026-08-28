@@ -9,13 +9,14 @@
 
 <body>
 
-<!-- 顶部活动公告栏 -->
-<div class="promo-banner">
-  🎉 <strong>WEBSITE LAUNCH SPECIAL:</strong> First 5 orders get <strong>RM 2.00 OFF</strong>! Use code: <span class="code-tag">FIRST5</span>
+<!-- 实时接单状态 Banner -->
+<div id="status-banner" class="promo-banner" style="background: #27ae60; color: #fff;">
+  🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (First 5 orders use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)
 </div>
 
 <header>
-  <a href="#" class="logo">sweet_bites02</a>
+  <!-- 连续点击 Logo 3 次触发管理员输入密码界面 -->
+  <a href="#" class="logo" onclick="adminClickCount(); return false;">sweet_bites02</a>
 
   <nav>
     <a href="#home">Home</a>
@@ -26,32 +27,18 @@
 </header>
 
 <section id="home" class="hero">
-
   <div class="hero-text">
     <p class="small-title">HOMEMADE • FRESH • MADE WITH LOVE</p>
-
-    <h1>
-      Sweet moments,<br>
-      <span>one bite at a time.</span>
-    </h1>
-
-    <p>
-      Little desserts made to make your day
-      a little sweeter.
-    </p>
-
-    <a href="#products" class="button">
-      Explore Desserts
-    </a>
+    <h1>Sweet moments,<br><span>one bite at a time.</span></h1>
+    <p>Little desserts made to make your day a little sweeter.</p>
+    <a href="#products" class="button">Explore Desserts</a>
   </div>
-
   <div class="hero-image">
     <img src="images/hero.jpg" alt="sweet_bites02 desserts">
   </div>
 </section>
 
 <section id="products" class="products">
-
   <div class="section-title">
     <p class="small-title">OUR MENU</p>
     <h2>Sweet Bites</h2>
@@ -77,7 +64,6 @@
 
         <strong id="mochi-price-display">RM 4.80 / pc</strong>
 
-        <!-- 单粒模式界面 -->
         <div id="mochi-piece-section">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Select quantity for each flavor:</p>
           <div class="flavor-selector">
@@ -114,10 +100,9 @@
               </div>
             </div>
           </div>
-          <button onclick="addMochiPiecesToCart()" class="order-button">Add to Cart</button>
+          <button onclick="addMochiPiecesToCart()" class="order-button cart-btn-action">Add to Cart</button>
         </div>
 
-        <!-- 整盒模式界面 -->
         <div id="mochi-box-section" style="display: none;">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Mix & match flavors for your box:</p>
           <div class="flavor-selector">
@@ -154,7 +139,7 @@
               </div>
             </div>
           </div>
-          <button onclick="addMochiBoxToCart()" class="order-button">Add 1 Box to Cart</button>
+          <button onclick="addMochiBoxToCart()" class="order-button cart-btn-action">Add 1 Box to Cart</button>
         </div>
 
       </div>
@@ -182,7 +167,7 @@
           <input type="number" id="qty-cake" value="1" min="1" readonly>
           <button onclick="changeQty('cake', 1)">+</button>
         </div>
-        <button onclick="addCakeToCart()" class="order-button">Add to Cart</button>
+        <button onclick="addCakeToCart()" class="order-button cart-btn-action">Add to Cart</button>
       </div>
     </div>
 
@@ -198,7 +183,7 @@
           <input type="number" id="qty-tofu" value="1" min="1" readonly>
           <button onclick="changeQty('tofu', 1)">+</button>
         </div>
-        <button onclick="addToCart('冰豆花', 6.50, 'tofu')" class="order-button">Add to Cart</button>
+        <button onclick="addToCart('冰豆花', 6.50, 'tofu')" class="order-button cart-btn-action">Add to Cart</button>
       </div>
     </div>
 
@@ -215,12 +200,11 @@
           <input type="number" id="qty-mooncake" value="1" min="1" readonly>
           <button onclick="changeQty('mooncake', 1)">+</button>
         </div>
-        <button onclick="addToCart('传统月饼', 0.00, 'mooncake')" class="order-button">Add to Cart</button>
+        <button onclick="addToCart('传统月饼', 0.00, 'mooncake')" class="order-button cart-btn-action">Add to Cart</button>
       </div>
     </div>
 
   </div>
-
 </section>
 
 <!-- 取货 / 配送说明模块 -->
@@ -267,14 +251,12 @@
     <p class="empty-msg">Your cart is empty.</p>
   </div>
 
-  <!-- 优惠码输入区 -->
   <div class="promo-input-box">
     <input type="text" id="promo-code-input" placeholder="Enter FIRST5" style="text-transform:uppercase;">
     <button onclick="applyPromoCode()">Apply</button>
   </div>
   <p id="promo-msg" class="promo-msg" style="font-size: 11px; color: #888;">* Limited to first 5 website orders only.</p>
 
-  <!-- 付款方式选择 (新增 COD 选项) -->
   <div class="payment-method-select" style="margin-top: 10px;">
     <label style="font-size: 12px; font-weight: bold; color: #5b463b;">Payment Method:</label>
     <select id="payment-method-option" onchange="togglePaymentSection()" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 12px; margin-top: 4px;">
@@ -283,7 +265,6 @@
     </select>
   </div>
 
-  <!-- 线上付款信息区（根据选择可隐藏） -->
   <div id="online-pay-box" class="qr-payment-container">
     <p class="qr-title"><strong>Payment (Touch 'n Go / DuitNow)</strong></p>
     
@@ -301,7 +282,6 @@
     <p class="qr-subtext">Please attach payment receipt via WhatsApp after transferring.</p>
   </div>
 
-  <!-- COD 货到付款说明区 -->
   <div id="cod-pay-box" class="qr-payment-container" style="display: none; background: #fdfefe; border-color: #27ae60;">
     <p class="qr-title" style="color: #27ae60;"><strong>💵 Cash on Delivery (COD)</strong></p>
     <p style="font-size: 12px; color: #555; margin: 5px 0;">Pay with cash upon self-pickup or delivery arrival.</p>
@@ -313,30 +293,111 @@
       <div class="summary-line discount" id="discount-row" style="display:none; color: #e74c3c;"><span>Discount:</span> -RM <span id="cart-discount">0.00</span></div>
       <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
     </div>
-    <button onclick="checkoutWA()" class="checkout-btn">Send Order to WhatsApp</button>
+    <button id="checkout-btn" onclick="checkoutWA()" class="checkout-btn">Send Order to WhatsApp</button>
   </div>
 </div>
 
 <section id="about" class="about">
   <p class="small-title">ABOUT US</p>
   <h2>Made for sweet little moments.</h2>
-  <p>
-    Welcome to sweet_bites02 ♡
-    We make homemade desserts with love,
-    from our kitchen to your table.
-  </p>
+  <p>Welcome to sweet_bites02 ♡ We make homemade desserts with love, from our kitchen to your table.</p>
 </section>
 
-<footer>
-  © 2026 sweet_bites02 · Made with love ♡
-</footer>
+<footer>© 2026 sweet_bites02 · Made with love ♡</footer>
 
-<!-- 购物车与逻辑 -->
 <script>
+  // 已经自动为您填入对应的密钥
+  const BIN_ID = "6a91191bda38895dfe1adefa"; 
+  const API_KEY = "$2a$10$Ap7DWrCksBl4VyGaxKugNuE.yhpYOyPB5MXuUyUheCTXtvywxLGfS"; 
+  const ADMIN_PASS = "sweet123"; // 你的独家管理员密码
+
+  let isStoreOpen = true;
   let cart = [];
   let discountAmount = 0;
   let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
+
+  window.onload = function() {
+    fetchStoreStatus();
+  };
+
+  function fetchStoreStatus() {
+    fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { "X-Master-Key": API_KEY }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.record && typeof data.record.isOpen !== 'undefined') {
+        isStoreOpen = data.record.isOpen;
+      }
+      updateUIStatus();
+    })
+    .catch(err => {
+      console.log("Status fetch error:", err);
+      updateUIStatus();
+    });
+  }
+
+  function updateUIStatus() {
+    const banner = document.getElementById('status-banner');
+    const orderBtns = document.querySelectorAll('.cart-btn-action');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    if (isStoreOpen) {
+      banner.style.background = "#27ae60";
+      banner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (First 5 orders use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)`;
+      orderBtns.forEach(btn => { btn.disabled = false; btn.style.opacity = "1"; btn.innerText = "Add to Cart"; });
+      if(checkoutBtn) { checkoutBtn.disabled = false; checkoutBtn.style.opacity = "1"; }
+    } else {
+      banner.style.background = "#e74c3c";
+      banner.innerHTML = `🔴 <strong>PRE-ORDERS CURRENTLY CLOSED:</strong> Next order window opening soon! Stay tuned on our IG.`;
+      orderBtns.forEach(btn => { btn.disabled = true; btn.style.opacity = "0.5"; btn.innerText = "Closed"; });
+      if(checkoutBtn) { checkoutBtn.disabled = true; checkoutBtn.style.opacity = "0.5"; }
+    }
+  }
+
+  let clickTimer = null;
+  let logoClicks = 0;
+  function adminClickCount() {
+    logoClicks++;
+    if (logoClicks === 1) {
+      clickTimer = setTimeout(() => { logoClicks = 0; }, 1200);
+    } else if (logoClicks >= 3) {
+      clearTimeout(clickTimer);
+      logoClicks = 0;
+      promptAdminControl();
+    }
+  }
+
+  function promptAdminControl() {
+    let inputPass = prompt("Enter Admin Password:");
+    if (inputPass === ADMIN_PASS) {
+      let nextStatus = confirm(`Current Status: ${isStoreOpen ? "OPEN (🟢)" : "CLOSED (🔴)"}\n\nClick OK to toggle status (Switch to ${isStoreOpen ? "CLOSED" : "OPEN"})`);
+      if (nextStatus) {
+        toggleStoreStatus(!isStoreOpen);
+      }
+    } else if (inputPass !== null) {
+      alert("Wrong Password!");
+    }
+  }
+
+  function toggleStoreStatus(newStatus) {
+    fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY
+      },
+      body: JSON.stringify({ isOpen: newStatus })
+    })
+    .then(res => res.json())
+    .then(data => {
+      isStoreOpen = newStatus;
+      updateUIStatus();
+      alert(`Store Status Successfully Changed to: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}`);
+    })
+    .catch(err => alert("Failed to update store status. Check internet connection."));
+  }
 
   function changeQty(id, delta) {
     let input = document.getElementById('qty-' + id);
@@ -382,6 +443,7 @@
   }
 
   function addMochiPiecesToCart() {
+    if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     const flavors = [
       { id: 'p-grapes', name: '雪媚娘 (Grapes)' },
       { id: 'p-mango', name: '雪媚娘 (Mango)' },
@@ -404,6 +466,7 @@
   }
 
   function addMochiBoxToCart() {
+    if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     let g = parseInt(document.getElementById('qty-mochi-b-grapes').value);
     let m = parseInt(document.getElementById('qty-mochi-b-mango').value);
     let o = parseInt(document.getElementById('qty-mochi-b-oreo').value);
@@ -436,6 +499,7 @@
   }
 
   function addCakeToCart() {
+    if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     let select = document.getElementById('cake-size');
     let size = select.value;
     let price = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
@@ -448,6 +512,7 @@
   }
 
   function addToCart(name, price, id) {
+    if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     let qtyInput = document.getElementById('qty-' + id);
     let qty = parseInt(qtyInput.value);
     addToCartCustom(name, price, qty);
@@ -532,13 +597,13 @@
     document.getElementById('cart-drawer').classList.toggle('open');
   }
 
-  // 复制号码功能
   function copyTNGNumber() {
     navigator.clipboard.writeText("0184007016");
     alert("✓ Number 0184007016 copied to clipboard!");
   }
 
   function checkoutWA() {
+    if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     if (cart.length === 0) return alert("Your cart is empty!");
     
     let method = document.getElementById('payment-method-option').value;
