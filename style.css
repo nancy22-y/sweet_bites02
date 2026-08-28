@@ -175,7 +175,7 @@ nav a {
   z-index: 10;
 }
 
-/* 仅对月饼区域加横向 swipe 控制 */
+/* 月饼图片 swipe 容器 */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -431,27 +431,28 @@ footer {
   color: #aaa;
 }
 
+
 /* ===================================================
-   慢动作吐纸 / 升起锯齿小票 (Slow Motion Print Animation)
+   🖨️ 拟真 POS 收据机：分段吐纸 + 出纸口阴影动画
    =================================================== */
 
-/* 遮罩背景 */
+/* 暗色背景遮罩 */
 .receipt-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* 从底部升起 */
+  align-items: center;
   z-index: 999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.5s ease;
-  padding-bottom: 30px;
+  transition: opacity 0.4s ease;
+  padding: 20px;
 }
 
 .receipt-modal-overlay.active {
@@ -459,40 +460,60 @@ footer {
   pointer-events: auto;
 }
 
-/* 打印机槽口视口限制 (防止超出) */
-.printer-slot {
+/* 拟真打印机出纸口黑槽 (Printer Slot) */
+.printer-slot-wrapper {
   position: relative;
-  overflow: hidden;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 24px; /* 出纸口上方预留深色缝隙 */
+  overflow: hidden; /* 裁剪从缝隙里吐出来的纸张 */
 }
 
-/* 小票卡片：真正的慢动作上升吐纸 keyframes */
+/* 深色压纸缝隙（带阴影） */
+.printer-slot-wrapper::before {
+  content: "🖨️ PRINTING RECEIPT...";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 24px;
+  background: #2b231f;
+  border-radius: 4px 4px 0 0;
+  color: #c8967b;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 24px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5) inset;
+  z-index: 10;
+}
+
+/* 小票主体卡片 */
 .receipt-card {
   background: #fffdf8;
-  width: 320px;
-  padding: 25px 20px;
+  width: 310px;
+  padding: 25px 20px 30px 20px;
   position: relative;
   font-family: 'Courier New', Courier, monospace;
   color: #4a3b32;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
   
-  /* 初始隐藏在下方 */
-  transform: translateY(120%);
+  /* 初始藏在出纸口内部 */
+  transform: translateY(-100%);
   opacity: 0;
 }
 
-/* 当弹窗激活时，触发 1.2 秒的高高级慢动作升起/打印吐纸 */
+/* 激活时：仿针式/热敏打印机“咔嚓咔嚓”分段推出来的 steps 动画 */
 .receipt-modal-overlay.active .receipt-card {
-  animation: slowPrintUp 1.2s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+  animation: printStepsOut 1.5s steps(12, start) forwards;
 }
 
-@keyframes slowPrintUp {
+@keyframes printStepsOut {
   0% {
-    transform: translateY(110%);
+    transform: translateY(-90%);
     opacity: 0;
   }
-  30% {
+  15% {
     opacity: 1;
   }
   100% {
@@ -501,7 +522,7 @@ footer {
   }
 }
 
-/* 顶部与底部真正的锯齿齿轮 (Zigzag Cut) */
+/* 顶部与底部的撕纸锯齿齿轮 */
 .receipt-card::before,
 .receipt-card::after {
   content: "";
