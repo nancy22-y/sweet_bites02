@@ -15,8 +15,8 @@ body {
 /* Banner 通告栏 */
 .promo-banner {
   text-align: center;
-  padding: 8px 15px;
-  font-size: 13px;
+  padding: 10px 20px;
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -28,12 +28,12 @@ body {
   font-weight: bold;
 }
 
-/* 导航栏 */
+/* 导航栏 (宽版 4% 边距) */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 5%;
+  padding: 18px 4%;
   background: #fff;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   position: sticky;
@@ -42,37 +42,36 @@ header {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #5b463b;
   text-decoration: none;
 }
 
 nav a {
-  margin-left: 20px;
+  margin-left: 25px;
   text-decoration: none;
   color: #5b463b;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 }
 
-/* Hero 首页区 */
+/* Hero 首页区 (大宽版) */
 .hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 50px 5%;
-  max-width: 1100px;
-  margin: 0 auto;
+  padding: 60px 4%;
+  width: 100%;
 }
 
 .hero-text {
   flex: 1;
-  padding-right: 30px;
+  padding-right: 40px;
 }
 
 .small-title {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 2px;
   color: #c8967b;
   font-weight: 700;
@@ -80,7 +79,7 @@ nav a {
 }
 
 .hero-text h1 {
-  font-size: 36px;
+  font-size: 42px;
   line-height: 1.2;
   margin-bottom: 15px;
 }
@@ -92,17 +91,17 @@ nav a {
 .hero-text p {
   color: #7a685d;
   margin-bottom: 25px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .button {
   display: inline-block;
   background: #5b463b;
   color: #fff;
-  padding: 10px 24px;
+  padding: 12px 28px;
   border-radius: 25px;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -113,26 +112,25 @@ nav a {
 
 .hero-image img {
   width: 100%;
-  max-width: 380px;
+  max-width: 450px;
   border-radius: 15px;
 }
 
-/* 产品列表卡片 (完全还原原始自适应结构) */
+/* 产品列表 (全宽网格，卡片自动拉宽) */
 .products {
-  padding: 40px 5%;
-  max-width: 1100px;
-  margin: 0 auto;
+  padding: 40px 4%;
+  width: 100%;
 }
 
 .section-title {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
 }
 
 .product-card {
@@ -143,48 +141,48 @@ nav a {
   position: relative;
 }
 
-/* 原始图片样式：自适应宽度展示 */
+/* 普通商品大图无限制呈现 */
 .product-card > img {
   width: 100%;
   display: block;
 }
 
 .product-info {
-  padding: 15px;
+  padding: 18px;
 }
 
 .product-info h3 {
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-size: 18px;
+  margin-bottom: 6px;
 }
 
 .product-info p {
-  font-size: 12px;
+  font-size: 13px;
   color: #7a685d;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .product-info strong {
-  font-size: 15px;
+  font-size: 16px;
   color: #5b463b;
   display: block;
-  margin: 6px 0;
+  margin: 8px 0;
 }
 
 .seasonal {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   background: #e74c3c;
   color: #fff;
-  font-size: 10px;
-  padding: 3px 8px;
+  font-size: 11px;
+  padding: 4px 10px;
   border-radius: 4px;
   font-weight: bold;
   z-index: 10;
 }
 
-/* 仅对月饼卡片的 Swipe 图片轮播做最小化无痕适配 */
+/* 月饼图片纯横向 Swipe 容器 (自适应宽版) */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -210,7 +208,7 @@ nav a {
   background: rgba(0, 0, 0, 0.45);
   color: #fff;
   border: none;
-  font-size: 14px;
+  font-size: 16px;
   padding: 8px 12px;
   cursor: pointer;
   border-radius: 50%;
@@ -218,8 +216,8 @@ nav a {
   z-index: 5;
 }
 
-.carousel-btn.prev { left: 8px; }
-.carousel-btn.next { right: 8px; }
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
 .carousel-btn:hover { background: rgba(0, 0, 0, 0.75); }
 
 /* 数量按钮与选项 */
@@ -231,8 +229,8 @@ nav a {
 }
 
 .quantity-control button {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border: 1px solid #ccc;
   background: #fff;
   border-radius: 4px;
@@ -241,7 +239,7 @@ nav a {
 }
 
 .quantity-control input {
-  width: 40px;
+  width: 45px;
   text-align: center;
   border: none;
   font-weight: bold;
@@ -249,74 +247,74 @@ nav a {
 }
 
 .quantity-control.mini button {
-  width: 22px;
-  height: 22px;
-  font-size: 11px;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
 }
 
 .quantity-control.mini input {
-  width: 28px;
+  width: 30px;
   font-size: 12px;
 }
 
 .option-select-wrapper {
   margin: 6px 0;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .option-select-wrapper select {
-  padding: 4px;
+  padding: 5px;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
 .flavor-selector {
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
 .flavor-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11px;
-  margin-bottom: 4px;
+  font-size: 12px;
+  margin-bottom: 6px;
 }
 
 .order-button {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   background: #5b463b;
   color: #fff;
   border: none;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 6px;
+  margin-top: 8px;
+  font-size: 14px;
 }
 
-/* 配送与取货说明 */
+/* 配送说明区 */
 .delivery-info-section {
-  padding: 40px 5%;
-  max-width: 1100px;
-  margin: 0 auto;
+  padding: 50px 4%;
+  width: 100%;
 }
 
 .delivery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
 }
 
 .delivery-card {
   background: #fff;
-  padding: 20px;
+  padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
 .delivery-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 /* 购物车 Drawer */
@@ -326,7 +324,7 @@ nav a {
   right: 25px;
   background: #5b463b;
   color: #fff;
-  padding: 12px 18px;
+  padding: 12px 20px;
   border-radius: 30px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -436,7 +434,7 @@ nav a {
 /* About & Footer */
 .about {
   text-align: center;
-  padding: 40px 5%;
+  padding: 50px 4%;
   background: #fff;
 }
 
