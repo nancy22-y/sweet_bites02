@@ -491,19 +491,30 @@
     document.getElementById('cart-drawer').classList.toggle('open');
   }
 
-  // 复制号码功能
+  // 一键复制号码并提示
   function copyTNGNumber() {
     navigator.clipboard.writeText("0184007016");
-    alert("Copied 0184007016 to clipboard!");
+    alert("✓ Number 0184007016 copied! You can now paste it in TNG App.");
   }
 
-  // 唤醒 Touch 'n Go App 功能
+  // 唤醒 Touch 'n Go App 官方跳转逻辑
   function openTNGApp() {
-    // 尝试直接调用 TNG App 协议，失败则提示
-    window.location.href = "tngewallet://";
-    setTimeout(() => {
-      alert("Opening TNG eWallet App... If it doesn't open automatically, please open your TNG App manually.");
-    }, 800);
+    // 自动先复制手机号码，方便顾客粘贴
+    navigator.clipboard.writeText("0184007016");
+    
+    // 使用深层链接尝试唤醒 TNG App
+    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    if (isiOS) {
+      // iOS 唤醒方式
+      window.location.href = "https://m.tngewallet.com.my";
+    } else {
+      // Android 唤醒方式
+      window.location.href = "tngewallet://";
+      setTimeout(function() {
+        window.location.href = "https://play.google.com/store/apps/details?id=my.com.tngdigital.ewallet";
+      }, 1500);
+    }
   }
 
   function checkoutWA() {
