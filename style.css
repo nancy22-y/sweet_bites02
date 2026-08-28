@@ -146,7 +146,6 @@ nav a {
   flex-direction: column;
 }
 
-/* 所有卡片顶部展示图片统一定高 180px */
 .product-card > img {
   width: 100%;
   height: 180px;
@@ -192,40 +191,31 @@ nav a {
   z-index: 10;
 }
 
-/* 核心：重叠式月饼轮播容器 */
+/* 真正的滑动（Swipe/Slide）轮播视口 */
 .carousel-container {
   position: relative;
   width: 100%;
-  height: 180px; /* 与普通商品图片严格同高 */
+  height: 180px;
   overflow: hidden;
-  background: #eee;
+  background: #f0f0f0;
 }
 
+/* 图片轨道：并排横拉，滑块平滑平移 */
 .carousel-slide {
-  position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* 关键：图片全部绝对定位重叠，仅显示激活项 */
 .carousel-slide img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
+  height: 180px;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out;
-  z-index: 1;
+  flex-shrink: 0;
 }
 
-.carousel-slide img.active-img {
-  opacity: 1;
-  z-index: 2;
-}
-
-/* 悬浮左右控制按键 */
+/* 悬浮切换箭头 */
 .carousel-btn {
   position: absolute;
   top: 50%;
