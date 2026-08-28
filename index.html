@@ -15,7 +15,7 @@
 </div>
 
 <!-- Banner 2: 取货日期 (独立展示) -->
-<div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+<div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
   📅 <strong>NEXT PICKUP DATE:</strong> <span id="banner-pickup-date">Sunday, 30 Aug</span>
 </div>
 
@@ -191,14 +191,15 @@
       </div>
     </div>
 
-    <!-- 4. 传统月饼 (全叠加淡入轮播 + 统一 Size 裁切) -->
+    <!-- 4. 传统月饼 (滑动平移轮播 Carousel) -->
     <div class="product-card">
       <p class="seasonal">SEASONAL</p>
       
       <div class="carousel-container">
         <div class="carousel-slide" id="mc-carousel-slide">
-          <img src="images/mooncake-1.jpeg" alt="传统月饼 1" class="active-img">
+          <img src="images/mooncake-1.jpeg" alt="传统月饼 1">
           <img src="images/mooncake-2.jpeg" alt="传统月饼 2">
+        
         </div>
         <button class="carousel-btn prev" onclick="moveMcCarousel(-1)">&#10094;</button>
         <button class="carousel-btn next" onclick="moveMcCarousel(1)">&#10095;</button>
@@ -381,13 +382,13 @@
   let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
 
-  // 单帧重叠淡入/覆盖切换逻辑
+  // 平滑 Swipe 滑动轮播逻辑
   let currentMcIndex = 0;
   function moveMcCarousel(step) {
-    let slides = document.querySelectorAll('#mc-carousel-slide img');
-    slides[currentMcIndex].classList.remove('active-img');
-    currentMcIndex = (currentMcIndex + step + slides.length) % slides.length;
-    slides[currentMcIndex].classList.add('active-img');
+    let slideTrack = document.getElementById('mc-carousel-slide');
+    let totalSlides = slideTrack.querySelectorAll('img').length;
+    currentMcIndex = (currentMcIndex + step + totalSlides) % totalSlides;
+    slideTrack.style.transform = `translateX(-${currentMcIndex * 100}%)`;
   }
 
   // 月饼 4 种口味选择 (限制1盒4粒 RM25)
