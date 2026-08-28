@@ -9,13 +9,18 @@
 
 <body>
 
-<!-- 实时接单状态 Banner -->
+<!-- Banner 1: 实时接单状态 & 优惠码 -->
 <div id="status-banner" class="promo-banner" style="background: #27ae60; color: #fff;">
-  🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (First 5 orders use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)
+  🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)
+</div>
+
+<!-- Banner 2: 取货日期 (独立展示) -->
+<div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+  📅 <strong>NEXT PICKUP DATE:</strong> <span id="banner-pickup-date">Sunday, 30 Aug</span>
 </div>
 
 <header>
-  <!-- 连续点击 Logo 3 次触发管理员输入密码界面 -->
+  <!-- 连续点击 Logo 3 次触发管理员控制面板 -->
   <a href="#" class="logo" onclick="adminClickCount(); return false;">sweet_bites02</a>
 
   <nav>
@@ -306,12 +311,12 @@
 <footer>© 2026 sweet_bites02 · Made with love ♡</footer>
 
 <script>
-  // 已经自动为您填入对应的密钥
   const BIN_ID = "6a91191bda38895dfe1adefa"; 
   const API_KEY = "$2a$10$Ap7DWrCksBl4VyGaxKugNuE.yhpYOyPB5MXuUyUheCTXtvywxLGfS"; 
-  const ADMIN_PASS = "sweet123"; // 你的独家管理员密码
+  const ADMIN_PASS = "sweet123";
 
   let isStoreOpen = true;
+  let pickupDateText = "Sunday, 30 Aug";
   let cart = [];
   let discountAmount = 0;
   let appliedCode = "";
@@ -327,8 +332,9 @@
     })
     .then(res => res.json())
     .then(data => {
-      if(data.record && typeof data.record.isOpen !== 'undefined') {
-        isStoreOpen = data.record.isOpen;
+      if(data.record) {
+        if(typeof data.record.isOpen !== 'undefined') isStoreOpen = data.record.isOpen;
+        if(data.record.pickupDate) pickupDateText = data.record.pickupDate;
       }
       updateUIStatus();
     })
@@ -339,18 +345,23 @@
   }
 
   function updateUIStatus() {
-    const banner = document.getElementById('status-banner');
+    const statusBanner = document.getElementById('status-banner');
+    const pickupDateSpan = document.getElementById('banner-pickup-date');
     const orderBtns = document.querySelectorAll('.cart-btn-action');
     const checkoutBtn = document.getElementById('checkout-btn');
 
+    // 更新取货日期 Banner 文字
+    if(pickupDateSpan) pickupDateSpan.innerText = pickupDateText;
+
+    // 更新状态 Banner & 按钮权限
     if (isStoreOpen) {
-      banner.style.background = "#27ae60";
-      banner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (First 5 orders use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)`;
+      statusBanner.style.background = "#27ae60";
+      statusBanner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)`;
       orderBtns.forEach(btn => { btn.disabled = false; btn.style.opacity = "1"; btn.innerText = "Add to Cart"; });
       if(checkoutBtn) { checkoutBtn.disabled = false; checkoutBtn.style.opacity = "1"; }
     } else {
-      banner.style.background = "#e74c3c";
-      banner.innerHTML = `🔴 <strong>PRE-ORDERS CURRENTLY CLOSED:</strong> Next order window opening soon! Stay tuned on our IG.`;
+      statusBanner.style.background = "#e74c3c";
+      statusBanner.innerHTML = `🔴 <strong>PRE-ORDERS CURRENTLY CLOSED:</strong> Next order window opening soon! Stay tuned on our IG.`;
       orderBtns.forEach(btn => { btn.disabled = true; btn.style.opacity = "0.5"; btn.innerText = "Closed"; });
       if(checkoutBtn) { checkoutBtn.disabled = true; checkoutBtn.style.opacity = "0.5"; }
     }
@@ -372,29 +383,39 @@
   function promptAdminControl() {
     let inputPass = prompt("Enter Admin Password:");
     if (inputPass === ADMIN_PASS) {
-      let nextStatus = confirm(`Current Status: ${isStoreOpen ? "OPEN (🟢)" : "CLOSED (🔴)"}\n\nClick OK to toggle status (Switch to ${isStoreOpen ? "CLOSED" : "OPEN"})`);
-      if (nextStatus) {
-        toggleStoreStatus(!isStoreOpen);
-      }
+      // 1. 切换接单状态
+      let wantToggle = confirm(`Current Status: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\n\nClick OK to TOGGLE status (Switch to ${isStoreOpen ? "CLOSED" : "OPEN"}), or Cancel to keep current status.`);
+      let nextStatus = wantToggle ? !isStoreOpen : isStoreOpen;
+
+      // 2. 修改取货日期 (格式：星期几 + 几号)
+      let newDate = prompt("Enter Pickup Day & Date (e.g. Sunday, 30 Aug):", pickupDateText);
+      let finalDate = (newDate !== null && newDate.trim() !== "") ? newDate.trim() : pickupDateText;
+
+      // 保存更新
+      toggleStoreStatus(nextStatus, finalDate);
     } else if (inputPass !== null) {
       alert("Wrong Password!");
     }
   }
 
-  function toggleStoreStatus(newStatus) {
+  function toggleStoreStatus(newStatus, newDate) {
     fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "X-Master-Key": API_KEY
       },
-      body: JSON.stringify({ isOpen: newStatus })
+      body: JSON.stringify({ 
+        isOpen: newStatus,
+        pickupDate: newDate
+      })
     })
     .then(res => res.json())
     .then(data => {
       isStoreOpen = newStatus;
+      pickupDateText = newDate;
       updateUIStatus();
-      alert(`Store Status Successfully Changed to: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}`);
+      alert(`✅ Updated Successfully!\nStatus: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\nPickup Date: "${pickupDateText}"`);
     })
     .catch(err => alert("Failed to update store status. Check internet connection."));
   }
