@@ -4,17 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sweet_bites02</title>
-  <link rel="stylesheet" href="style.css?v=10.0">
+  <link rel="stylesheet" href="style.css?v=11.0">
 </head>
 
 <body>
 
-<!-- Banner 1: 实时接单状态 & 优惠码 -->
 <div id="status-banner" class="promo-banner" style="background: #27ae60; color: #fff;">
   🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)
 </div>
 
-<!-- Banner 2: 取货日期 -->
 <div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
   📅 <strong>NEXT PICKUP DATE:</strong> <span id="banner-pickup-date">Sunday, 30 Aug</span>
 </div>
@@ -272,7 +270,6 @@
   </div>
 </section>
 
-<!-- 取货 / 配送说明模块 -->
 <section id="delivery" class="delivery-info-section">
   <div class="section-title">
     <p class="small-title">HOW TO GET YOUR DESSERTS</p>
@@ -300,12 +297,10 @@
   </div>
 </section>
 
-<!-- 浮动购物车图标 -->
 <div class="cart-icon" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
-<!-- 侧边弹出购物车 -->
 <div id="cart-drawer" class="cart-drawer">
   <div class="cart-header">
     <h3>Your Order</h3>
@@ -332,18 +327,14 @@
 
   <div id="online-pay-box" class="qr-payment-container">
     <p class="qr-title"><strong>Payment (Touch 'n Go / DuitNow)</strong></p>
-    
     <img src="images/payment-qr.jpeg" alt="DuitNow / Touch n Go QR Code" style="width: 140px; height: 140px; object-fit: contain; display: block; margin: 8px auto; border-radius: 8px; border: 1px solid #ddd;">
-
     <div style="font-size: 12px; color: #5b463b; margin-top: 6px;">
       <div>Name: <strong>OOI YEE EN</strong></div>
       <div>TNG/DuitNow: <strong>0184007016</strong></div>
     </div>
-
     <div style="margin-top: 8px;">
       <button onclick="copyTNGNumber()" style="padding: 6px 14px; font-size: 12px; border-radius: 4px; border: 1px solid #5b463b; background: #5b463b; color: #fff; cursor: pointer; font-weight: bold;">📋 Copy Number (0184007016)</button>
     </div>
-
     <p class="qr-subtext">Please attach payment receipt via WhatsApp after transferring.</p>
   </div>
 
@@ -362,47 +353,47 @@
   </div>
 </div>
 
-<!-- 新增：可爱风电子 Receipt 弹窗 -->
+<!-- 拟真 POS 收据机弹窗 -->
 <div id="receipt-modal-overlay" class="receipt-modal-overlay">
-  <div class="receipt-card">
-    <div class="receipt-header">
-      <div class="receipt-logo">sweet_bites02 ♡</div>
-      <div class="receipt-subtitle">HOMEMADE DESSERTS • ORDER RECEIPT</div>
-      <div id="receipt-date-time" class="receipt-time">2026-08-28 20:30</div>
-    </div>
+  <div class="printer-slot-wrapper">
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div class="receipt-logo">sweet_bites02 ♡</div>
+        <div class="receipt-subtitle">HOMEMADE DESSERTS • RECEIPT</div>
+        <div id="receipt-date-time" class="receipt-time">2026-08-28 20:30</div>
+      </div>
 
-    <div class="receipt-divider"><span>---------------------------------------</span></div>
+      <div class="receipt-divider"><span>---------------------------------------</span></div>
 
-    <div class="receipt-section">
-      <div class="receipt-label">PAYMENT METHOD</div>
-      <div id="receipt-pay-method" class="receipt-value">Online Transfer / Touch 'n Go</div>
-    </div>
+      <div class="receipt-section">
+        <div class="receipt-label">PAYMENT METHOD</div>
+        <div id="receipt-pay-method" class="receipt-value">Online Transfer / Touch 'n Go</div>
+      </div>
 
-    <div class="receipt-divider"><span>---------------------------------------</span></div>
+      <div class="receipt-divider"><span>---------------------------------------</span></div>
 
-    <div class="receipt-label" style="margin-bottom: 6px;">ORDER ITEMS</div>
-    <div id="receipt-items-list" class="receipt-items-list">
-      <!-- 动态注入商品 -->
-    </div>
+      <div class="receipt-label" style="margin-bottom: 6px;">ORDER ITEMS</div>
+      <div id="receipt-items-list" class="receipt-items-list"></div>
 
-    <div class="receipt-divider"><span>---------------------------------------</span></div>
+      <div class="receipt-divider"><span>---------------------------------------</span></div>
 
-    <div class="receipt-price-box">
-      <div class="r-row"><span>Subtotal:</span><span>RM <span id="r-subtotal">0.00</span></span></div>
-      <div id="r-discount-row" class="r-row r-discount" style="display:none; color: #e74c3c;"><span>Discount:</span><span>-RM <span id="r-discount">0.00</span></span></div>
-      <div class="r-row r-total"><span>TOTAL:</span><span>RM <span id="r-total">0.00</span></span></div>
-    </div>
+      <div class="receipt-price-box">
+        <div class="r-row"><span>Subtotal:</span><span>RM <span id="r-subtotal">0.00</span></span></div>
+        <div id="r-discount-row" class="r-row r-discount" style="display:none; color: #e74c3c;"><span>Discount:</span><span>-RM <span id="r-discount">0.00</span></span></div>
+        <div class="r-row r-total"><span>TOTAL:</span><span>RM <span id="r-total">0.00</span></span></div>
+      </div>
 
-    <div class="receipt-divider"><span>---------------------------------------</span></div>
+      <div class="receipt-divider"><span>---------------------------------------</span></div>
 
-    <div class="receipt-footer-msg">
-      ✨ Thank you for choosing sweet_bites02! ✨<br>
-      Please send this receipt to WhatsApp to complete your order.
-    </div>
+      <div class="receipt-footer-msg">
+        ✨ Thank you for choosing sweet_bites02! ✨<br>
+        Please send this receipt to WhatsApp to complete your order.
+      </div>
 
-    <div class="receipt-actions">
-      <button onclick="checkoutWA()" class="btn-wa">📱 Send to WhatsApp</button>
-      <button onclick="closeReceiptModal()" class="btn-close">Close</button>
+      <div class="receipt-actions">
+        <button onclick="checkoutWA()" class="btn-wa">📱 Send to WhatsApp</button>
+        <button onclick="closeReceiptModal()" class="btn-close">Close</button>
+      </div>
     </div>
   </div>
 </div>
@@ -422,6 +413,7 @@
 
   let isStoreOpen = true;
   let pickupDateText = "Sunday, 30 Aug";
+  let promoCount = 0; // 记录优惠券使用次数
   let cart = [];
   let discountAmount = 0;
   let appliedCode = "";
@@ -491,6 +483,7 @@
     fetchStoreStatus();
   };
 
+  /* 从云端读取店铺状态与优惠券累计使用次数 */
   function fetchStoreStatus() {
     fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
       headers: { "X-Master-Key": API_KEY }
@@ -500,6 +493,7 @@
       if(data.record) {
         if(typeof data.record.isOpen !== 'undefined') isStoreOpen = data.record.isOpen;
         if(data.record.pickupDate) pickupDateText = data.record.pickupDate;
+        if(typeof data.record.promoCount !== 'undefined') promoCount = data.record.promoCount;
       }
       updateUIStatus();
     })
@@ -519,7 +513,15 @@
 
     if (isStoreOpen) {
       statusBanner.style.background = "#27ae60";
-      statusBanner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)`;
+      
+      // 判断优惠券是否已被领满 5 次
+      if (promoCount >= 5) {
+        statusBanner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (FIRST5 promo fully claimed)`;
+      } else {
+        let remaining = 5 - promoCount;
+        statusBanner.innerHTML = `🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF - ${remaining} left)`;
+      }
+
       orderBtns.forEach(btn => { btn.disabled = false; btn.style.opacity = "1"; btn.innerText = "Add to Cart"; });
       if(checkoutBtn) { checkoutBtn.disabled = false; checkoutBtn.style.opacity = "1"; }
     } else {
@@ -546,19 +548,22 @@
   function promptAdminControl() {
     let inputPass = prompt("Enter Admin Password:");
     if (inputPass === ADMIN_PASS) {
-      let wantToggle = confirm(`Current Status: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\n\nClick OK to TOGGLE status (Switch to ${isStoreOpen ? "CLOSED" : "OPEN"}), or Cancel to keep current status.`);
+      let wantToggle = confirm(`Current Status: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\nDiscount Used: ${promoCount}/5\n\nClick OK to TOGGLE status, or Cancel to keep.`);
       let nextStatus = wantToggle ? !isStoreOpen : isStoreOpen;
 
-      let newDate = prompt("Enter Pickup Day & Date (e.g. Sunday, 30 Aug):", pickupDateText);
+      let newDate = prompt("Enter Pickup Day & Date:", pickupDateText);
       let finalDate = (newDate !== null && newDate.trim() !== "") ? newDate.trim() : pickupDateText;
 
-      toggleStoreStatus(nextStatus, finalDate);
+      let resetPromo = confirm("Do you want to RESET the FIRST5 promo code counter back to 0?");
+      let finalPromoCount = resetPromo ? 0 : promoCount;
+
+      toggleStoreStatus(nextStatus, finalDate, finalPromoCount);
     } else if (inputPass !== null) {
       alert("Wrong Password!");
     }
   }
 
-  function toggleStoreStatus(newStatus, newDate) {
+  function toggleStoreStatus(newStatus, newDate, newPromoCount) {
     fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
       method: "PUT",
       headers: {
@@ -567,15 +572,17 @@
       },
       body: JSON.stringify({ 
         isOpen: newStatus,
-        pickupDate: newDate
+        pickupDate: newDate,
+        promoCount: newPromoCount
       })
     })
     .then(res => res.json())
     .then(data => {
       isStoreOpen = newStatus;
       pickupDateText = newDate;
+      promoCount = newPromoCount;
       updateUIStatus();
-      alert(`✅ Updated Successfully!\nStatus: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\nPickup Date: "${pickupDateText}"`);
+      alert(`✅ Updated Successfully!\nStatus: ${isStoreOpen ? "OPEN 🟢" : "CLOSED 🔴"}\nPickup Date: "${pickupDateText}"\nPromo Count: ${promoCount}/5`);
     })
     .catch(err => alert("Failed to update store status. Check internet connection."));
   }
@@ -737,15 +744,24 @@
     document.getElementById('cart-drawer').classList.add('open');
   }
 
+  /* 输入 Promo Code 判定逻辑 */
   function applyPromoCode() {
     let code = document.getElementById('promo-code-input').value.trim().toUpperCase();
     let msg = document.getElementById('promo-msg');
 
     if (code === "FIRST5") {
-      discountAmount = 2.00;
-      appliedCode = "FIRST5";
-      msg.style.color = "#27ae60";
-      msg.innerText = "✓ Code FIRST5 applied! (-RM 2.00 for First 5 Orders)";
+      // 检查使用次数是否已经超过 5 次
+      if (promoCount >= 5) {
+        discountAmount = 0;
+        appliedCode = "";
+        msg.style.color = "#e74c3c";
+        msg.innerText = "❌ Promo code 'FIRST5' limit reached (First 5 orders fully claimed)!";
+      } else {
+        discountAmount = 2.00;
+        appliedCode = "FIRST5";
+        msg.style.color = "#27ae60";
+        msg.innerText = `✓ Code FIRST5 applied! (-RM 2.00) [${5 - promoCount} uses left]`;
+      }
     } else if (code === "") {
       discountAmount = 0;
       appliedCode = "";
@@ -811,7 +827,6 @@
     alert("✓ Number 0184007016 copied to clipboard!");
   }
 
-  /* 展开 Receipt 可爱风弹窗 */
   function openReceiptModal() {
     if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     if (cart.length === 0) return alert("Your cart is empty!");
@@ -819,12 +834,10 @@
     let method = document.getElementById('payment-method-option').value;
     document.getElementById('receipt-pay-method').innerText = method === 'online' ? "Online Transfer / Touch 'n Go" : "Cash on Delivery (COD 现金付款)";
 
-    // 当前时间
     let now = new Date();
     let timeStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
     document.getElementById('receipt-date-time').innerText = timeStr;
 
-    // 清单
     let itemsBox = document.getElementById('receipt-items-list');
     itemsBox.innerHTML = '';
     let subtotal = 0;
@@ -857,8 +870,27 @@
     document.getElementById('receipt-modal-overlay').classList.remove('active');
   }
 
+  /* 成功跳转 WhatsApp 时，如果使用了 FIRST5 优惠券，自动增加云端计数 +1 */
   function checkoutWA() {
     closeReceiptModal();
+
+    // 如果使用了优惠券，向云端累加次数
+    if (appliedCode === "FIRST5") {
+      promoCount++;
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": API_KEY
+        },
+        body: JSON.stringify({ 
+          isOpen: isStoreOpen,
+          pickupDate: pickupDateText,
+          promoCount: promoCount
+        })
+      });
+    }
+
     let method = document.getElementById('payment-method-option').value;
     let paymentMethodText = method === 'online' ? "✨ Online Transfer / Touch 'n Go" : "💵 Cash on Delivery (COD 现金)";
 
