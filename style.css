@@ -431,12 +431,11 @@ footer {
   color: #aaa;
 }
 
-
 /* ===================================================
-   高兼容超逼真 锯齿撕纸小票卡片 + 强效果弹出动画
+   慢动作吐纸 / 升起锯齿小票 (Slow Motion Print Animation)
    =================================================== */
 
-/* 暗色磨砂玻璃背景遮罩 */
+/* 遮罩背景 */
 .receipt-modal-overlay {
   position: fixed;
   top: 0;
@@ -447,43 +446,62 @@ footer {
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end; /* 从底部升起 */
   z-index: 999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
-  padding: 20px;
+  transition: opacity 0.5s ease;
+  padding-bottom: 30px;
 }
 
-/* 激活遮罩层 */
 .receipt-modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
 
-/* 小票主体容器：滑入 + 放大 弹性出场动画 */
+/* 打印机槽口视口限制 (防止超出) */
+.printer-slot {
+  position: relative;
+  overflow: hidden;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* 小票卡片：真正的慢动作上升吐纸 keyframes */
 .receipt-card {
   background: #fffdf8;
-  width: 100%;
-  max-width: 340px;
+  width: 320px;
   padding: 25px 20px;
   position: relative;
   font-family: 'Courier New', Courier, monospace;
   color: #4a3b32;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
   
-  /* 弹性动画控制 */
-  transform: translateY(100px) scale(0.85);
+  /* 初始隐藏在下方 */
+  transform: translateY(120%);
   opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
 }
 
+/* 当弹窗激活时，触发 1.2 秒的高高级慢动作升起/打印吐纸 */
 .receipt-modal-overlay.active .receipt-card {
-  transform: translateY(0) scale(1);
-  opacity: 1;
+  animation: slowPrintUp 1.2s cubic-bezier(0.25, 1, 0.3, 1) forwards;
 }
 
-/* 顶部与底部真正的锯齿切口 (Zigzag Teeth) */
+@keyframes slowPrintUp {
+  0% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+/* 顶部与底部真正的锯齿齿轮 (Zigzag Cut) */
 .receipt-card::before,
 .receipt-card::after {
   content: "";
@@ -494,14 +512,12 @@ footer {
   background-size: 16px 12px;
 }
 
-/* 顶部锯齿 */
 .receipt-card::before {
   top: -12px;
   background-image: linear-gradient(135deg, #fffdf8 50%, transparent 50%), 
                     linear-gradient(225deg, #fffdf8 50%, transparent 50%);
 }
 
-/* 底部锯齿 */
 .receipt-card::after {
   bottom: -12px;
   background-image: linear-gradient(45deg, #fffdf8 50%, transparent 50%), 
