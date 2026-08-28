@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sweet_bites02</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 
 <body>
 
+<!-- Banner 1: 实时接单状态 & 优惠码 -->
 <div id="status-banner" class="promo-banner" style="background: #27ae60; color: #fff;">
   🟢 <strong>PRE-ORDERS OPEN:</strong> Place your order now! (Use code: <span class="code-tag">FIRST5</span> for RM 2.00 OFF)
 </div>
 
+<!-- Banner 2: 取货日期 -->
 <div id="pickup-banner" class="promo-banner" style="background: #5b463b; color: #fff; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
   📅 <strong>NEXT PICKUP DATE:</strong> <span id="banner-pickup-date">Sunday, 30 Aug</span>
 </div>
@@ -49,6 +51,7 @@
 
   <div class="product-grid">
 
+    <!-- 1. 雪媚娘 -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
@@ -146,6 +149,7 @@
       </div>
     </div>
 
+    <!-- 2. 巴斯克蛋糕 -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
@@ -171,6 +175,7 @@
       </div>
     </div>
 
+    <!-- 3. 冰豆花 -->
     <div class="product-card">
       <img src="images/tofu-pudding.jpeg" alt="冰豆花">
       <div class="product-info">
@@ -186,6 +191,7 @@
       </div>
     </div>
 
+    <!-- 4. 传统月饼 -->
     <div class="product-card">
       <p class="seasonal">SEASONAL</p>
       
@@ -245,6 +251,7 @@
       </div>
     </div>
 
+    <!-- 5. 原味公仔饼 -->
     <div class="product-card">
       <p class="seasonal">SEASONAL</p>
       <img src="images/mooncake-3.jpeg" alt="原味公仔饼">
@@ -265,6 +272,7 @@
   </div>
 </section>
 
+<!-- 取货 / 配送说明模块 -->
 <section id="delivery" class="delivery-info-section">
   <div class="section-title">
     <p class="small-title">HOW TO GET YOUR DESSERTS</p>
@@ -292,10 +300,12 @@
   </div>
 </section>
 
+<!-- 浮动购物车图标 -->
 <div class="cart-icon" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
+<!-- 侧边弹出购物车 -->
 <div id="cart-drawer" class="cart-drawer">
   <div class="cart-header">
     <h3>Your Order</h3>
@@ -348,7 +358,52 @@
       <div class="summary-line discount" id="discount-row" style="display:none; color: #e74c3c;"><span>Discount:</span> -RM <span id="cart-discount">0.00</span></div>
       <div class="cart-total">Total: RM <span id="cart-total-price">0.00</span></div>
     </div>
-    <button id="checkout-btn" onclick="checkoutWA()" class="checkout-btn">Send Order to WhatsApp</button>
+    <button id="checkout-btn" onclick="openReceiptModal()" class="checkout-btn">Checkout & Preview Receipt</button>
+  </div>
+</div>
+
+<!-- 新增：可爱风电子 Receipt 弹窗 -->
+<div id="receipt-modal-overlay" class="receipt-modal-overlay">
+  <div class="receipt-card">
+    <div class="receipt-header">
+      <div class="receipt-logo">sweet_bites02 ♡</div>
+      <div class="receipt-subtitle">HOMEMADE DESSERTS • ORDER RECEIPT</div>
+      <div id="receipt-date-time" class="receipt-time">2026-08-28 20:30</div>
+    </div>
+
+    <div class="receipt-divider"><span>---------------------------------------</span></div>
+
+    <div class="receipt-section">
+      <div class="receipt-label">PAYMENT METHOD</div>
+      <div id="receipt-pay-method" class="receipt-value">Online Transfer / Touch 'n Go</div>
+    </div>
+
+    <div class="receipt-divider"><span>---------------------------------------</span></div>
+
+    <div class="receipt-label" style="margin-bottom: 6px;">ORDER ITEMS</div>
+    <div id="receipt-items-list" class="receipt-items-list">
+      <!-- 动态注入商品 -->
+    </div>
+
+    <div class="receipt-divider"><span>---------------------------------------</span></div>
+
+    <div class="receipt-price-box">
+      <div class="r-row"><span>Subtotal:</span><span>RM <span id="r-subtotal">0.00</span></span></div>
+      <div id="r-discount-row" class="r-row r-discount" style="display:none; color: #e74c3c;"><span>Discount:</span><span>-RM <span id="r-discount">0.00</span></span></div>
+      <div class="r-row r-total"><span>TOTAL:</span><span>RM <span id="r-total">0.00</span></span></div>
+    </div>
+
+    <div class="receipt-divider"><span>---------------------------------------</span></div>
+
+    <div class="receipt-footer-msg">
+      ✨ Thank you for choosing sweet_bites02! ✨<br>
+      Please send this receipt to WhatsApp to complete your order.
+    </div>
+
+    <div class="receipt-actions">
+      <button onclick="checkoutWA()" class="btn-wa">📱 Send to WhatsApp</button>
+      <button onclick="closeReceiptModal()" class="btn-close">Close</button>
+    </div>
   </div>
 </div>
 
@@ -372,7 +427,6 @@
   let appliedCode = "";
   const PHONE_NUMBER = "60184007016";
 
-  // 横向平滑 Swipe 切换
   let currentMcIndex = 0;
   function moveMcCarousel(step) {
     let slideTrack = document.getElementById('mc-carousel-slide');
@@ -381,7 +435,6 @@
     slideTrack.style.transform = `translateX(-${currentMcIndex * 100}%)`;
   }
 
-  // 月饼 4 种口味选择 (限制1盒4粒 RM25)
   function changeMcFlavor(flavorKey, delta) {
     let input = document.getElementById('qty-mc-' + flavorKey);
     let currentVal = parseInt(input.value);
@@ -572,6 +625,38 @@
 
   function addMochiPiecesToCart() {
     if (!isStoreOpen) return alert("Pre-orders are currently closed!");
+
+    let g = parseInt(document.getElementById('qty-mochi-p-grapes').value);
+    let m = parseInt(document.getElementById('qty-mochi-p-mango').value);
+    let o = parseInt(document.getElementById('qty-mochi-p-oreo').value);
+    let l = parseInt(document.getElementById('qty-mochi-p-longan').value);
+    let totalPieces = g + m + o + l;
+
+    if (totalPieces === 0) {
+      return alert("Please select at least 1 mochi flavor!");
+    }
+
+    if (totalPieces === 4) {
+      let switchToBox = confirm("💡 您已选择了 4 粒雪媚娘！\n\n切换到【1 Box (RM 18.00)】整盒购买更划算（只需 RM 18.00，为您省下钱），是否帮您按整盒优惠价加入购物车？");
+      
+      if (switchToBox) {
+        let flavorDetails = [];
+        if (g > 0) flavorDetails.push(`${g} Grapes`);
+        if (m > 0) flavorDetails.push(`${m} Mango`);
+        if (o > 0) flavorDetails.push(`${o} Oreo`);
+        if (l > 0) flavorDetails.push(`${l} Longan`);
+
+        let boxName = `雪媚娘 Box (${flavorDetails.join(', ')})`;
+        addToCartCustom(boxName, 18.00, 1);
+
+        document.getElementById('qty-mochi-p-grapes').value = 0;
+        document.getElementById('qty-mochi-p-mango').value = 0;
+        document.getElementById('qty-mochi-p-oreo').value = 0;
+        document.getElementById('qty-mochi-p-longan').value = 0;
+        return;
+      }
+    }
+
     const flavors = [
       { id: 'p-grapes', name: '雪媚娘 (Grapes)' },
       { id: 'p-mango', name: '雪媚娘 (Mango)' },
@@ -579,18 +664,14 @@
       { id: 'p-longan', name: '雪媚娘 (Longan)' }
     ];
 
-    let addedAny = false;
     flavors.forEach(f => {
       let qtyInput = document.getElementById('qty-mochi-' + f.id);
       let qty = parseInt(qtyInput.value);
       if (qty > 0) {
         addToCartCustom(f.name, 4.80, qty);
         qtyInput.value = 0;
-        addedAny = true;
       }
     });
-
-    if (!addedAny) alert("Please select at least 1 mochi flavor!");
   }
 
   function addMochiBoxToCart() {
@@ -730,40 +811,87 @@
     alert("✓ Number 0184007016 copied to clipboard!");
   }
 
-  function checkoutWA() {
+  /* 展开 Receipt 可爱风弹窗 */
+  function openReceiptModal() {
     if (!isStoreOpen) return alert("Pre-orders are currently closed!");
     if (cart.length === 0) return alert("Your cart is empty!");
-    
-    let method = document.getElementById('payment-method-option').value;
-    let paymentMethodText = method === 'online' ? "Online Transfer / TNG" : "Cash on Delivery (COD 现金付款)";
 
-    let message = "Hi! I would like to place an order:%0A%0A";
-    message += `💳 *PAYMENT METHOD:* ${paymentMethodText}%0A%0A`;
-    message += "📦 *ORDER ITEMS:*%0A";
+    let method = document.getElementById('payment-method-option').value;
+    document.getElementById('receipt-pay-method').innerText = method === 'online' ? "Online Transfer / Touch 'n Go" : "Cash on Delivery (COD 现金付款)";
+
+    // 当前时间
+    let now = new Date();
+    let timeStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('receipt-date-time').innerText = timeStr;
+
+    // 清单
+    let itemsBox = document.getElementById('receipt-items-list');
+    itemsBox.innerHTML = '';
     let subtotal = 0;
-    
+
     cart.forEach(item => {
       let itemSub = item.price * item.qty;
       subtotal += itemSub;
-      message += `• ${item.name} x${item.qty} = RM ${itemSub.toFixed(2)}%0A`;
+      itemsBox.innerHTML += `
+        <div class="r-item-line">
+          <span>${item.name} x${item.qty}</span>
+          <span>RM ${itemSub.toFixed(2)}</span>
+        </div>`;
+    });
+
+    let finalTotal = Math.max(0, subtotal - discountAmount);
+    document.getElementById('r-subtotal').innerText = subtotal.toFixed(2);
+
+    if (discountAmount > 0) {
+      document.getElementById('r-discount-row').style.display = "flex";
+      document.getElementById('r-discount').innerText = discountAmount.toFixed(2);
+    } else {
+      document.getElementById('r-discount-row').style.display = "none";
+    }
+
+    document.getElementById('r-total').innerText = finalTotal.toFixed(2);
+    document.getElementById('receipt-modal-overlay').classList.add('active');
+  }
+
+  function closeReceiptModal() {
+    document.getElementById('receipt-modal-overlay').classList.remove('active');
+  }
+
+  function checkoutWA() {
+    closeReceiptModal();
+    let method = document.getElementById('payment-method-option').value;
+    let paymentMethodText = method === 'online' ? "✨ Online Transfer / Touch 'n Go" : "💵 Cash on Delivery (COD 现金)";
+
+    let message = "🍰 *sweet_bites02 · 订购小票 RECEIPT* 🍰%0A";
+    message += "─────────────────────%0A";
+    message += `💳 *付款方式 Payment:* %0A  » ${paymentMethodText}%0A%0A`;
+    message += "📦 *订购明细 Order Details:*%0A";
+    
+    let subtotal = 0;
+    cart.forEach(item => {
+      let itemSub = item.price * item.qty;
+      subtotal += itemSub;
+      message += `  • ${item.name} ×${item.qty} ➔ RM ${itemSub.toFixed(2)}%0A`;
     });
 
     let finalTotal = Math.max(0, subtotal - discountAmount);
 
-    message += `%0ASubtotal: RM ${subtotal.toFixed(2)}%0A`;
+    message += "%0A─────────────────────%0A";
+    message += `💰 *小计 Subtotal:* RM ${subtotal.toFixed(2)}%0A`;
     if (discountAmount > 0) {
-      message += `Discount (${appliedCode}): -RM ${discountAmount.toFixed(2)}%0A`;
+      message += `🎁 *优惠折扣 (${appliedCode}):* -RM ${discountAmount.toFixed(2)}%0A`;
     }
-    message += `💰 *TOTAL AMOUNT:* RM ${finalTotal.toFixed(2)}%0A%0A`;
-    
-    message += "----------------------------------%0A";
-    message += "📋 *CUSTOMER INFORMATION:*%0A";
-    message += "• Name (姓名): %0A";
-    message += "• Phone (电话): %0A";
-    message += "• Delivery Method (取货方式): [ Self-Pickup 自取 / GrabExpress Delivery 邮费自付 ]%0A";
-    message += "• Pickup/Delivery Date & Time (时间): %0A";
-    message += "• Address (如选择 GrabExpress 配送请填地址): %0A";
-    message += "• Remarks (备注): %0A";
+    message += `💖 *应付总额 Total Amount:* *RM ${finalTotal.toFixed(2)}*%0A`;
+    message += "─────────────────────%0A%0A";
+
+    message += "📝 *顾客资料 Delivery Info:*%0A";
+    message += "• 姓名 Name: %0A";
+    message += "• 电话 Phone: %0A";
+    message += "• 取货方式 Delivery Option: [ Self-Pickup 自取 / GrabExpress 邮费自付 ]%0A";
+    message += "• 日期与时间 Date & Time: %0A";
+    message += "• 配送地址 Address (如需 Grab 配送): %0A";
+    message += "• 备注 Remarks: %0A%0A";
+    message += "✨ *Thank you for making your day sweeter with us! ♡*";
 
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, '_blank');
   }
