@@ -9,7 +9,6 @@
 
 <body>
 
-<!-- 顶部活动公告栏 -->
 <div class="promo-banner">
   🎉 <strong>WEBSITE LAUNCH SPECIAL:</strong> First 5 orders get <strong>RM 2.00 OFF</strong>! Use code: <span class="code-tag">FIRST5</span>
 </div>
@@ -60,7 +59,6 @@
 
   <div class="product-grid">
 
-    <!-- 1. 雪媚娘 -->
     <div class="product-card">
       <img src="images/snow-mochi.jpg" alt="雪媚娘">
       <div class="product-info">
@@ -77,7 +75,6 @@
 
         <strong id="mochi-price-display">RM 4.80 / pc</strong>
 
-        <!-- 单粒模式界面 -->
         <div id="mochi-piece-section">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Select quantity for each flavor:</p>
           <div class="flavor-selector">
@@ -117,7 +114,6 @@
           <button onclick="addMochiPiecesToCart()" class="order-button">Add to Cart</button>
         </div>
 
-        <!-- 整盒模式界面 -->
         <div id="mochi-box-section" style="display: none;">
           <p style="font-size: 12px; color: #888; margin-top: 5px;">Mix & match flavors for your box:</p>
           <div class="flavor-selector">
@@ -160,7 +156,6 @@
       </div>
     </div>
 
-    <!-- 2. 巴斯克蛋糕 -->
     <div class="product-card">
       <img src="images/basque-cheesecake.jpg" alt="Basque Cheesecake">
       <div class="product-info">
@@ -171,7 +166,7 @@
           <label for="cake-size">Size:</label>
           <select id="cake-size" onchange="updateCakePrice()">
             <option value="4 inch" data-price="22.00">4 inch - RM 22.00</option>
-            <option value="6 inch" data-price="42.00">6 inch - RM 42.00</option>
+            <option value="6 inch" data-price="45.00">6 inch - RM 45.00</option>
           </select>
         </div>
 
@@ -186,7 +181,6 @@
       </div>
     </div>
 
-    <!-- 3. 冰豆花 -->
     <div class="product-card">
       <img src="images/tofu-pudding.jpg" alt="冰豆花">
       <div class="product-info">
@@ -202,7 +196,6 @@
       </div>
     </div>
 
-    <!-- 4. 传统月饼 -->
     <div class="product-card">
       <img src="images/mooncake.jpg" alt="传统月饼">
       <div class="product-info">
@@ -223,7 +216,6 @@
 
 </section>
 
-<!-- 取货 / 配送说明模块 -->
 <section id="delivery" class="delivery-info-section">
   <div class="section-title">
     <p class="small-title">HOW TO GET YOUR DESSERTS</p>
@@ -240,7 +232,7 @@
     <div class="delivery-card">
       <div class="delivery-icon">🚗</div>
       <h3>GrabExpress Delivery</h3>
-      <p>Delivery fee will be paid by customer (邮费自付). We will arrange GrabExpress to send desserts right to your doorstep.</p>
+      <p>Delivery fee will be paid by customer (邮费自付). We will arrange GrabExpress or Lalamove to send desserts right to your doorstep.</p>
     </div>
 
     <div class="delivery-card">
@@ -251,12 +243,10 @@
   </div>
 </section>
 
-<!-- 浮动购物车图标 -->
 <div class="cart-icon" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
-<!-- 侧边弹出购物车 -->
 <div id="cart-drawer" class="cart-drawer">
   <div class="cart-header">
     <h3>Your Order</h3>
@@ -267,18 +257,28 @@
     <p class="empty-msg">Your cart is empty.</p>
   </div>
 
-  <!-- 优惠码输入区 -->
   <div class="promo-input-box">
     <input type="text" id="promo-code-input" placeholder="Enter FIRST5" style="text-transform:uppercase;">
     <button onclick="applyPromoCode()">Apply</button>
   </div>
   <p id="promo-msg" class="promo-msg" style="font-size: 11px; color: #888;">* Limited to first 5 website orders only.</p>
 
-  <!-- 二维码付款展示区 (已指定为 payment-qr.jpeg) -->
   <div class="qr-payment-container">
-    <p class="qr-title">Scan QR Code to Pay (扫码付款):</p>
-    <img src="images/payment-qr.jpeg" alt="DuitNow / Touch n Go QR Code" style="width: 150px; height: 150px; object-fit: contain; display: block; margin: 10px auto; border-radius: 8px; border: 1px solid #ddd;">
-    <p class="qr-subtext">Please attach payment receipt via WhatsApp after scanning.</p>
+    <p class="qr-title"><strong>Payment (Touch 'n Go / DuitNow)</strong></p>
+    
+    <img src="images/payment-qr.jpeg" alt="DuitNow / Touch n Go QR Code" style="width: 140px; height: 140px; object-fit: contain; display: block; margin: 8px auto; border-radius: 8px; border: 1px solid #ddd;">
+
+    <div style="font-size: 12px; color: #5b463b; margin-top: 6px;">
+      <div>Name: <strong>OOI YEE EN</strong></div>
+      <div>TNG/DuitNow: <strong>0184007016</strong></div>
+    </div>
+
+    <div style="display: flex; gap: 6px; justify-content: center; margin-top: 8px;">
+      <button onclick="copyTNGNumber()" style="padding: 5px 10px; font-size: 11px; border-radius: 4px; border: 1px solid #5b463b; background: #fff; color: #5b463b; cursor: pointer;">📋 Copy Number</button>
+      <button onclick="openTNGApp()" style="padding: 5px 10px; font-size: 11px; border-radius: 4px; border: none; background: #005fb2; color: #fff; cursor: pointer; font-weight: bold;">🚀 Open TNG App</button>
+    </div>
+
+    <p class="qr-subtext">Please attach payment receipt via WhatsApp after transferring.</p>
   </div>
 
   <div class="cart-footer">
@@ -305,7 +305,6 @@
   © 2026 sweet_bites02 · Made with love ♡
 </footer>
 
-<!-- 购物车逻辑 -->
 <script>
   let cart = [];
   let discountAmount = 0;
@@ -492,10 +491,25 @@
     document.getElementById('cart-drawer').classList.toggle('open');
   }
 
+  // 复制号码功能
+  function copyTNGNumber() {
+    navigator.clipboard.writeText("0184007016");
+    alert("Copied 0184007016 to clipboard!");
+  }
+
+  // 唤醒 Touch 'n Go App 功能
+  function openTNGApp() {
+    // 尝试直接调用 TNG App 协议，失败则提示
+    window.location.href = "tngewallet://";
+    setTimeout(() => {
+      alert("Opening TNG eWallet App... If it doesn't open automatically, please open your TNG App manually.");
+    }, 800);
+  }
+
   function checkoutWA() {
     if (cart.length === 0) return alert("Your cart is empty!");
     
-    let message = "Hi! I have scanned the QR code to pay and would like to place an order:%0A%0A";
+    let message = "Hi! I have made the payment to OOI YEE EN and would like to place an order:%0A%0A";
     message += "📦 *ORDER ITEMS:*%0A";
     let subtotal = 0;
     
